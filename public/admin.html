@@ -1,0 +1,2011 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Convocation Admin | City University Malaysia</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f6f8;
+        color: #1c2430;
+      }
+
+      header {
+        background: #101d38;
+        color: white;
+        padding: 20px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 22px;
+      }
+
+      .container {
+        max-width: 1500px;
+        margin: auto;
+        padding: 30px;
+      }
+
+      button {
+        border: none;
+        border-radius: 6px;
+        padding: 11px 18px;
+        cursor: pointer;
+      }
+
+      .primary {
+        background: #c8102e;
+        color: white;
+      }
+
+      .secondary {
+        background: #101d38;
+        color: white;
+      }
+
+      .delete-btn {
+        background: #c8102e;
+        color: white;
+        padding: 7px 12px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 25px;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 22px;
+        border-radius: 10px;
+      }
+
+      .stat-card span {
+        color: #657080;
+      }
+
+      .stat-card strong {
+        display: block;
+        font-size: 28px;
+        margin-top: 10px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .search {
+        width: 100%;
+        max-width: 400px;
+        padding: 11px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      .table-container {
+        background: white;
+        overflow-x: auto;
+        border-radius: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1300px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+        font-size: 14px;
+      }
+
+      th {
+        background: #101d38;
+        color: white;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .status-attend {
+        color: green;
+        font-weight: bold;
+      }
+
+      .status-not {
+        color: #c8102e;
+        font-weight: bold;
+      }
+
+      .tracer-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 105px;
+      }
+
+      .tracer-btn {
+        width: 105px;
+        padding: 8px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .proof-btn {
+        background: #101d38;
+        color: white;
+      }
+
+      .verify-btn {
+        background: #198754;
+        color: white;
+      }
+
+      .reject-btn {
+        background: #c8102e;
+        color: white;
+      }
+
+      .tracer-btn:hover {
+        opacity: 0.88;
+      }
+
+      @media (max-width: 800px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .tracer-status {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .tracer-submitted {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .tracer-verified {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .tracer-rejected {
+        background: #f8d7da;
+        color: #842029;
+      }
+
+      .overview-status {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .status-good {
+        background: #d1e7dd;
+        color: #0f5132;
+      }
+
+      .status-warning {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .status-bad {
+        background: #f8d7da;
+        color: #842029;
+      }
+
+      .status-neutral {
+        background: #e8ecf4;
+        color: #374151;
+      }
+
+
+      .record-actions {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .view-btn {
+          background: #d7a93a;
+          color: #101d38;
+          padding: 7px 12px;
+          font-size: 12px;
+          font-weight: 600;
+      }
+
+      .view-btn:hover {
+          background: #c69a31;
+      }
+
+      .edit-btn {
+        background: #101d38;
+        color: #fff;
+        padding: 7px 12px;
+        font-size: 12px;
+      }
+
+      .edit-btn:hover {
+        background: #1c315c;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 17, 35, 0.62);
+        display: grid;
+        place-items: center;
+        padding: 22px;
+        z-index: 2000;
+      }
+
+      .modal-backdrop.hidden {
+        display: none;
+      }
+
+      .edit-modal {
+        width: min(760px, 100%);
+        max-height: calc(100vh - 44px);
+        overflow-y: auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 24px 70px rgba(9, 20, 43, 0.28);
+      }
+
+      .edit-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 22px 24px 18px;
+        border-bottom: 1px solid #e7eaf0;
+      }
+
+      .edit-modal-header h3 {
+        margin: 0 0 5px;
+        color: #101d38;
+        font-size: 21px;
+      }
+
+      .edit-modal-header p {
+        margin: 0;
+        color: #657080;
+        font-size: 13px;
+      }
+
+      .modal-close {
+        border: 0;
+        background: #f0f2f6;
+        color: #101d38;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .edit-form {
+        padding: 22px 24px 24px;
+      }
+
+      .edit-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 17px;
+      }
+
+      .edit-field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .edit-field.full {
+        grid-column: 1 / -1;
+      }
+
+      .edit-field label {
+        color: #101d38;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .edit-field input,
+      .edit-field select,
+      .edit-field textarea {
+        width: 100%;
+        border: 1px solid #cfd5df;
+        border-radius: 9px;
+        padding: 11px 12px;
+        font: inherit;
+        color: #1c2430;
+        background: #fff;
+      }
+
+      .edit-field input:focus,
+      .edit-field select:focus,
+      .edit-field textarea:focus {
+        outline: none;
+        border-color: #c8102e;
+        box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.08);
+      }
+
+      .edit-field input[readonly] {
+        background: #f4f6f8;
+        color: #657080;
+      }
+
+      .edit-field textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .edit-help {
+        color: #7a8493;
+        font-size: 11px;
+      }
+
+      .edit-message {
+        min-height: 20px;
+        margin: 15px 0 0;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .edit-message.error {
+        color: #b42318;
+      }
+
+      .edit-message.success {
+        color: #17653f;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 19px;
+        padding-top: 18px;
+        border-top: 1px solid #e7eaf0;
+      }
+
+      .cancel-edit-btn {
+        background: #eef1f5;
+        color: #101d38;
+      }
+
+      .save-edit-btn {
+        background: #c8102e;
+        color: #fff;
+      }
+
+      .save-edit-btn:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+
+      @media (max-width: 700px) {
+        .edit-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .edit-field.full {
+          grid-column: auto;
+        }
+
+        .modal-actions {
+          flex-direction: column-reverse;
+        }
+
+        .modal-actions button {
+          width: 100%;
+        }
+      }
+
+      .tracer-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .tracer-btn {
+        min-width: 105px;
+        padding: 8px 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .proof-btn {
+        background: #101d38;
+        color: white;
+      }
+
+      .verify-btn {
+        background: #198754;
+        color: white;
+      }
+
+      .reject-btn {
+        background: #c8102e;
+        color: white;
+      }
+
+      .tracer-btn:hover {
+        opacity: 0.88;
+      }
+
+
+      /* Professional dashboard refinements */
+      body {
+        background: #f3f5f8;
+      }
+
+      header {
+        min-height: 78px;
+        padding: 16px 32px;
+        box-shadow: 0 2px 12px rgba(16, 29, 56, 0.16);
+      }
+
+      .brand-block h1 {
+        margin: 0;
+        font-size: 21px;
+        letter-spacing: 0.1px;
+      }
+
+      .brand-block small {
+        display: block;
+        margin-top: 5px;
+        color: #d8dce5;
+        font-size: 12px;
+      }
+
+      .container {
+        max-width: 1540px;
+        padding: 30px 28px 42px;
+      }
+
+      .page-heading {
+        margin-bottom: 22px;
+      }
+
+      .page-heading h2 {
+        margin: 0 0 6px;
+        color: #101d38;
+        font-size: 24px;
+      }
+
+      .page-heading p {
+        margin: 0;
+        color: #657080;
+        font-size: 14px;
+      }
+
+      .stats {
+        gap: 16px;
+      }
+
+      .stat-card {
+        border: 1px solid #e7eaf0;
+        border-top: 4px solid #d7a93a;
+        border-radius: 12px;
+        box-shadow: 0 5px 18px rgba(16, 29, 56, 0.06);
+      }
+
+      .stat-card span {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .stat-card strong {
+        color: #101d38;
+        font-size: 30px;
+      }
+
+      .actions {
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        background: #fff;
+        border: 1px solid #e7eaf0;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(16, 29, 56, 0.05);
+      }
+
+      .search {
+        max-width: 460px;
+        border-color: #d7dce5;
+        background: #fbfcfd;
+      }
+
+      .search:focus {
+        outline: none;
+        border-color: #101d38;
+        box-shadow: 0 0 0 3px rgba(16, 29, 56, 0.08);
+      }
+
+      .secondary,
+      .delete-btn,
+      .tracer-btn {
+        font-weight: 600;
+        transition: 0.18s ease;
+      }
+
+      .secondary:hover,
+      .delete-btn:hover,
+      .tracer-btn:hover {
+        transform: translateY(-1px);
+        opacity: 0.92;
+      }
+
+      .table-container {
+        border: 1px solid #e7eaf0;
+        border-radius: 12px;
+        box-shadow: 0 5px 18px rgba(16, 29, 56, 0.06);
+      }
+
+      thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: #101d38;
+        white-space: nowrap;
+      }
+
+      tbody tr:hover {
+        background: #fafbfc;
+      }
+
+      td {
+        vertical-align: top;
+      }
+
+      .status-attend,
+      .status-not {
+        white-space: nowrap;
+      }
+
+      @media (max-width: 900px) {
+        header {
+          padding: 15px 18px;
+        }
+
+        .container {
+          padding: 22px 16px 36px;
+        }
+
+        .actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search {
+          max-width: none;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .brand-block h1 {
+          font-size: 17px;
+        }
+      }
+
+.student-detail-content {
+    padding: 22px 24px 26px;
+}
+
+.student-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.student-detail-grid > div {
+    background: #f7f8fa;
+    border: 1px solid #e7eaf0;
+    border-radius: 10px;
+    padding: 14px;
+}
+
+.student-detail-grid .detail-full {
+    grid-column: 1 / -1;
+}
+
+.student-detail-grid span {
+    display: block;
+    color: #657080;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.student-detail-grid strong {
+    color: #101d38;
+    font-size: 14px;
+    word-break: break-word;
+}
+
+.detail-section-title {
+    color: #101d38;
+    font-size: 15px;
+    margin: 25px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #d7a93a;
+}
+
+.detail-comments {
+    background: #f7f8fa;
+    border: 1px solid #e7eaf0;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+@media (max-width: 650px) {
+    .student-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .student-detail-grid .detail-full {
+        grid-column: auto;
+    }
+}
+
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="brand-block">
+        <h1>Convocation 2027 · Admin Portal</h1>
+        <small>City University Malaysia · Sabah Regional Centre</small>
+      </div>
+
+      <button id="logoutButton" class="secondary hidden">Logout</button>
+    </header>
+
+    <div class="container">
+
+      <!-- DASHBOARD -->
+
+      <div id="dashboard" class="hidden">
+        <div class="page-heading">
+          <h2>Registration Dashboard</h2>
+          <p>Manage graduate registrations, Tracer Study verification and convocation records.</p>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <span> Total Registrations </span>
+
+            <strong id="total"> 0 </strong>
+          </div>
+
+          <div class="stat-card">
+            <span> Attending </span>
+
+            <strong id="attending"> 0 </strong>
+          </div>
+
+          <div class="stat-card">
+            <span> Not Attending </span>
+
+            <strong id="notAttending"> 0 </strong>
+          </div>
+
+          <div class="stat-card">
+            <span> Total Guests </span>
+
+            <strong id="totalGuests"> 0 </strong>
+          </div>
+        </div>
+
+        <div class="actions">
+          <input
+            id="search"
+            class="search"
+            placeholder="Search name, Student ID, programme or status..."
+          />
+
+          <button class="secondary" onclick="exportExcel()">
+            Export Excel
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table>
+          <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Student ID</th>
+                <th>Programme</th>
+                <th>Attendance</th>
+                <th>Guests</th>
+                <th>Date</th>
+                <th>Tracer Study</th>
+                <th>Convocation Payment</th>
+                <th>Bursary Clearance</th>
+                <th>Tracer Action</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+            <tbody id="studentRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+<!-- STUDENT DETAIL MODAL -->
+      <div
+          id="studentDetailModal"
+          class="modal-backdrop hidden"
+          aria-hidden="true"
+      >
+          <div
+              class="edit-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="studentDetailTitle"
+          >
+              <div class="edit-modal-header">
+                  <div>
+                      <h3 id="studentDetailTitle">
+                          Student Details
+                      </h3>
+
+                      <p>
+                          Complete convocation registration record.
+                      </p>
+                  </div>
+
+                  <button
+                      type="button"
+                      class="modal-close"
+                      id="closeStudentDetailModal"
+                      aria-label="Close"
+                  >
+                      &times;
+                  </button>
+              </div>
+
+              <div class="student-detail-content">
+
+                  <div class="student-detail-grid">
+
+                      <div>
+                          <span>Full Name</span>
+                          <strong id="detailFullName">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Student ID</span>
+                          <strong id="detailStudentId">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Email</span>
+                          <strong id="detailEmail">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Phone</span>
+                          <strong id="detailPhone">-</strong>
+                      </div>
+
+                      <div class="detail-full">
+                          <span>Programme</span>
+                          <strong id="detailProgramme">-</strong>
+                      </div>
+
+                      <div class="detail-full">
+                          <span>Faculty</span>
+                          <strong id="detailFaculty">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Attendance</span>
+                          <strong id="detailAttendance">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Guests</span>
+                          <strong id="detailGuests">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Special Facilities</span>
+                          <strong id="detailFacilities">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Registered</span>
+                          <strong id="detailRegistered">-</strong>
+                      </div>
+
+                  </div>
+
+
+                  <h4 class="detail-section-title">
+                      Tracer Study
+                  </h4>
+
+                  <div class="student-detail-grid">
+
+                      <div>
+                          <span>Status</span>
+                          <strong id="detailTracerStatus">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Proof Uploaded</span>
+                          <strong id="detailTracerDate">-</strong>
+                      </div>
+
+                      <div class="detail-full">
+                          <button
+                              type="button"
+                              class="secondary"
+                              id="detailTracerButton"
+                          >
+                              View Tracer Proof
+                          </button>
+                      </div>
+
+                  </div>
+
+
+                  <h4 class="detail-section-title">
+                      Bursary & Payment
+                  </h4>
+
+                  <div class="student-detail-grid">
+
+                      <div>
+                          <span>Bursary Clearance</span>
+                          <strong id="detailClearance">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Clearance Updated</span>
+                          <strong id="detailClearanceDate">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Payment Status</span>
+                          <strong id="detailPaymentStatus">-</strong>
+                      </div>
+
+                      <div>
+                          <span>Payment Method</span>
+                          <strong id="detailPaymentMethod">-</strong>
+                      </div>
+
+                  </div>
+
+
+                  <h4 class="detail-section-title">
+                      Comments
+                  </h4>
+
+                  <p
+                      class="detail-comments"
+                      id="detailComments"
+                  >
+                      -
+                  </p>
+
+              </div>
+          </div>
+      </div>
+
+
+    <div
+      id="editRegistrationModal"
+      class="modal-backdrop hidden"
+      aria-hidden="true"
+    >
+      <div
+        class="edit-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="editRegistrationTitle"
+      >
+        <div class="edit-modal-header">
+          <div>
+            <h3 id="editRegistrationTitle">Edit Registration</h3>
+            <p>
+              Update the graduate's registration information. Student ID is
+              kept read-only for record integrity.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="modal-close"
+            id="closeEditModal"
+            aria-label="Close"
+          >
+            &times;
+          </button>
+        </div>
+
+        <form id="editRegistrationForm" class="edit-form">
+          <input type="hidden" id="editRegistrationId" />
+
+          <div class="edit-grid">
+            <div class="edit-field">
+              <label for="editFullName">Full Name</label>
+              <input id="editFullName" type="text" required />
+            </div>
+
+            <div class="edit-field">
+              <label for="editStudentId">Student ID</label>
+              <input id="editStudentId" type="text" readonly />
+              <span class="edit-help">
+                Student ID cannot be changed from this form.
+              </span>
+            </div>
+
+            <div class="edit-field">
+              <label for="editEmail">Email Address</label>
+              <input id="editEmail" type="email" required />
+            </div>
+
+            <div class="edit-field">
+              <label for="editPhone">Phone Number</label>
+              <input id="editPhone" type="text" required />
+            </div>
+
+            <div class="edit-field full">
+              <label for="editProgramme">Programme</label>
+  <select id="editProgramme" required>
+
+    <option value="">
+        Select programme
+    </option>
+
+    <option value="DOSH - Diploma in Occupational Safety and Health">
+        DOSH - Diploma in Occupational Safety and Health
+    </option>
+
+    <option value="DIM - Diploma in Management">
+        DIM - Diploma in Management
+    </option>
+
+    <option value="DECE - Diploma in Early Childhood Education">
+        DECE - Diploma in Early Childhood Education
+    </option>
+
+    <option value="MED - Master of Education">
+        MED - Master of Education
+    </option>
+
+    <option value="BBA - Bachelor of Business Administration (Honours)">
+        BBA - Bachelor of Business Administration (Honours)
+    </option>
+
+    <option value="BECE - Bachelor of Education (Early Childhood Education) Honours">
+        BECE - Bachelor of Education (Early Childhood Education) Honours
+    </option>
+
+</select>
+            </div>
+
+            <div class="edit-field">
+              <label for="editAttendance">Attendance</label>
+              <select id="editAttendance" required>
+                <option value="Attend">Attend</option>
+                <option value="Not Attend">Not Attend</option>
+              </select>
+            </div>
+
+            <div class="edit-field">
+              <label for="editGuests">Guests</label>
+              <select id="editGuests" required>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+
+            <div class="edit-field">
+              <label for="editSpecialFacilities">Special Facilities</label>
+              <select id="editSpecialFacilities" required>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            </div>
+
+            <div class="edit-field full">
+              <label for="editComments">Comments / Feedback</label>
+              <textarea id="editComments"></textarea>
+            </div>
+          </div>
+
+          <p id="editRegistrationMessage" class="edit-message"></p>
+
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="cancel-edit-btn"
+              id="cancelEditButton"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="save-edit-btn"
+              id="saveEditButton"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let registrations = [];
+
+      /* CHECK LOGIN */
+
+      async function checkSession() {
+        try {
+          const response = await fetch("/api/admin/session");
+          const result = await response.json();
+
+          if (!result.loggedIn) {
+            window.location.href = "/login.html";
+            return;
+          }
+
+          await showDashboard();
+        } catch (error) {
+          console.error("Session check error:", error);
+          window.location.href = "/login.html";
+        }
+      }
+
+      /* DASHBOARD */
+
+      async function showDashboard() {
+        document.getElementById("dashboard").classList.remove("hidden");
+
+        document.getElementById("logoutButton").classList.remove("hidden");
+
+        await loadStats();
+
+        await loadRegistrations();
+      }
+
+      /* LOAD STATISTICS */
+
+      async function loadStats() {
+        const response = await fetch("/api/admin/stats");
+
+        if (!response.ok) {
+          return;
+        }
+
+        const stats = await response.json();
+
+        document.getElementById("total").textContent = stats.total || 0;
+
+        document.getElementById("attending").textContent = stats.attending || 0;
+
+        document.getElementById("notAttending").textContent =
+          stats.not_attending || 0;
+
+        document.getElementById("totalGuests").textContent =
+          stats.total_guests || 0;
+      }
+
+      /* LOAD REGISTRATIONS */
+
+      async function loadRegistrations() {
+        const response = await fetch("/api/admin/registrations");
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            window.location.href = "/login.html";
+          }
+
+          return;
+        }
+
+        registrations = await response.json();
+
+        renderRegistrations(registrations);
+      }
+
+      /* RENDER TABLE */
+
+      function renderRegistrations(data) {
+        const tbody = document.getElementById("studentRows");
+
+        tbody.innerHTML = "";
+
+        if (data.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+                <td colspan="12">
+                    No registrations found.
+                </td>
+            </tr>
+        `;
+
+          return;
+        }
+
+        data.forEach((student, index) => {
+          const row = document.createElement("tr");
+
+      row.innerHTML = `
+          <td>${index + 1}</td>
+
+          <td>
+              ${escapeHtml(student.full_name)}
+          </td>
+
+          <td>
+              ${escapeHtml(student.student_id)}
+          </td>
+
+          <td>
+              ${escapeHtml(student.programme)}
+          </td>
+
+          <td class="${
+              student.attendance === "Attend"
+                  ? "status-attend"
+                  : "status-not"
+          }">
+              ${escapeHtml(student.attendance)}
+          </td>
+
+          <td>
+              ${student.guests}
+          </td>
+
+          <td>
+              ${new Date(
+                  student.registered_at
+              ).toLocaleString()}
+          </td>
+
+          <td>
+              <span class="tracer-status ${
+                  student.tracer_status === "Verified"
+                      ? "tracer-verified"
+                      : student.tracer_status === "Rejected"
+                          ? "tracer-rejected"
+                          : "tracer-submitted"
+              }">
+                  ${escapeHtml(
+                      student.tracer_status || "Submitted"
+                  )}
+              </span>
+          </td>
+
+          <td>
+              <span class="overview-status ${
+                  paymentStatusClass(
+                      student.payment_status
+                  )
+              }">
+                  ${escapeHtml(
+                      student.payment_status ||
+                      "Not Submitted"
+                  )}
+              </span>
+          </td>
+
+          <td>
+              <span class="overview-status ${
+                  clearanceStatusClass(
+                      student.outstanding_status
+                  )
+              }">
+                  ${escapeHtml(
+                      student.outstanding_status ||
+                      "Pending Update"
+                  )}
+              </span>
+          </td>
+
+          <td>
+              <div class="tracer-actions">
+
+                  <button
+                      class="tracer-btn proof-btn"
+                      onclick="viewTracerProof(${student.id})"
+                  >
+                      View Proof
+                  </button>
+
+                  ${
+                      student.tracer_status !== "Verified" &&
+                      student.tracer_status !== "Rejected"
+                          ? `
+                              <button
+                                  class="tracer-btn verify-btn"
+                                  onclick="updateTracerStatus(
+                                      ${student.id},
+                                      'Verified'
+                                  )"
+                              >
+                                  Verify
+                              </button>
+
+                              <button
+                                  class="tracer-btn reject-btn"
+                                  onclick="updateTracerStatus(
+                                      ${student.id},
+                                      'Rejected'
+                                  )"
+                              >
+                                  Reject
+                              </button>
+                          `
+                          : ""
+                  }
+
+              </div>
+          </td>
+
+          <td>
+              <div class="record-actions">
+
+                  <button
+                      class="view-btn"
+                      onclick="openStudentDetails(${student.id})"
+                  >
+                      View
+                  </button>
+
+                  <button
+                      class="edit-btn"
+                      onclick="openEditRegistration(${student.id})"
+                  >
+                      Edit
+                  </button>
+
+                  <button
+                      class="delete-btn"
+                      onclick="deleteRegistration(${student.id})"
+                  >
+                      Delete
+                  </button>
+
+              </div>
+          </td>
+      `;
+                tbody.appendChild(row);
+              });
+            }
+
+      /* SEARCH */
+
+      document.getElementById("search").addEventListener("input", function () {
+        const value = this.value.toLowerCase().trim();
+
+        const filtered = registrations.filter((student) => {
+          return (
+            (student.full_name || "").toLowerCase().includes(value) ||
+            (student.student_id || "").toLowerCase().includes(value) ||
+            (student.programme || "").toLowerCase().includes(value) ||
+            (student.tracer_status || "").toLowerCase().includes(value) ||
+            (student.payment_status || "").toLowerCase().includes(value) ||
+            (student.outstanding_status || "").toLowerCase().includes(value)
+          );
+        });
+
+        renderRegistrations(filtered);
+      });
+
+/* =========================================
+   STUDENT DETAIL VIEW
+========================================= */
+
+const studentDetailModal =
+    document.getElementById("studentDetailModal");
+
+const closeStudentDetailModal =
+    document.getElementById(
+        "closeStudentDetailModal"
+    );
+
+
+function detailDate(value) {
+    if (!value) {
+        return "-";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "-";
+    }
+
+    return date.toLocaleString();
+}
+
+
+function openStudentDetails(id) {
+
+    const student =
+        registrations.find(
+            item => Number(item.id) === Number(id)
+        );
+
+    if (!student) {
+        alert("Student record could not be found.");
+        return;
+    }
+
+
+    document.getElementById(
+        "detailFullName"
+    ).textContent =
+        student.full_name || "-";
+
+    document.getElementById(
+        "detailStudentId"
+    ).textContent =
+        student.student_id || "-";
+
+    document.getElementById(
+        "detailEmail"
+    ).textContent =
+        student.email || "-";
+
+    document.getElementById(
+        "detailPhone"
+    ).textContent =
+        student.phone || "-";
+
+    document.getElementById(
+        "detailProgramme"
+    ).textContent =
+        student.programme || "-";
+
+    document.getElementById(
+        "detailFaculty"
+    ).textContent =
+        student.faculty || "-";
+
+    document.getElementById(
+        "detailAttendance"
+    ).textContent =
+        student.attendance || "-";
+
+    document.getElementById(
+        "detailGuests"
+    ).textContent =
+        student.guests ?? "0";
+
+    document.getElementById(
+        "detailFacilities"
+    ).textContent =
+        student.special_facilities || "No";
+
+    document.getElementById(
+        "detailRegistered"
+    ).textContent =
+        detailDate(student.registered_at);
+
+
+    /* TRACER STUDY */
+
+    document.getElementById(
+        "detailTracerStatus"
+    ).textContent =
+        student.tracer_status || "Submitted";
+
+    document.getElementById(
+        "detailTracerDate"
+    ).textContent =
+        detailDate(
+            student.tracer_uploaded_at
+        );
+
+    const tracerButton =
+        document.getElementById(
+            "detailTracerButton"
+        );
+
+    if (
+        student.tracer_proof_path ||
+        student.tracer_proof_name
+    ) {
+        tracerButton.disabled = false;
+
+        tracerButton.onclick = function () {
+            viewTracerProof(student.id);
+        };
+
+    } else {
+        tracerButton.disabled = true;
+        tracerButton.onclick = null;
+    }
+
+
+    /* BURSARY */
+
+    document.getElementById(
+        "detailClearance"
+    ).textContent =
+        student.outstanding_status ||
+        "Pending Update";
+
+    document.getElementById(
+        "detailClearanceDate"
+    ).textContent =
+        detailDate(
+            student.outstanding_updated_at
+        );
+
+
+    /* BURSARY STATUS */
+
+    document.getElementById(
+        "detailPaymentStatus"
+    ).textContent =
+        student.payment_status ||
+        "Not Submitted";
+
+    document.getElementById(
+        "detailPaymentMethod"
+    ).textContent =
+        student.payment_method || "-";
+
+    document.getElementById(
+        "detailComments"
+    ).textContent =
+        student.comments || "-";
+
+
+    studentDetailModal.classList.remove(
+        "hidden"
+    );
+
+    studentDetailModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+}
+
+
+function closeStudentDetails() {
+
+    studentDetailModal.classList.add(
+        "hidden"
+    );
+
+    studentDetailModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.style.overflow = "";
+}
+
+
+closeStudentDetailModal.addEventListener(
+    "click",
+    closeStudentDetails
+);
+
+
+studentDetailModal.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            event.target ===
+            studentDetailModal
+        ) {
+            closeStudentDetails();
+        }
+    }
+);
+
+
+      /* EDIT REGISTRATION */
+
+      const editRegistrationModal =
+        document.getElementById("editRegistrationModal");
+
+      const editRegistrationForm =
+        document.getElementById("editRegistrationForm");
+
+      const editRegistrationMessage =
+        document.getElementById("editRegistrationMessage");
+
+      const saveEditButton =
+        document.getElementById("saveEditButton");
+
+      function setProgrammeValue(value) {
+
+          const select =
+              document.getElementById(
+                  "editProgramme"
+              );
+
+          if (!value) {
+              select.value = "";
+              return;
+          }
+
+          const programmeCode =
+              String(value)
+                  .trim()
+                  .split(" - ")[0]
+                  .toUpperCase();
+
+          const option =
+              Array.from(
+                  select.options
+              ).find(
+                  item =>
+                      item.value
+                          .toUpperCase()
+                          .startsWith(
+                              programmeCode + " -"
+                          )
+              );
+
+          select.value =
+              option
+                  ? option.value
+                  : "";
+      }
+      function openEditRegistration(id) {
+        const student =
+          registrations.find(
+            item => Number(item.id) === Number(id)
+          );
+
+        if (!student) {
+          alert("Registration record could not be found.");
+          return;
+        }
+
+        document.getElementById(
+          "editRegistrationId"
+        ).value = student.id;
+
+        document.getElementById(
+          "editFullName"
+        ).value = student.full_name || "";
+
+        document.getElementById(
+          "editStudentId"
+        ).value = student.student_id || "";
+
+        document.getElementById(
+          "editEmail"
+        ).value = student.email || "";
+
+        document.getElementById(
+          "editPhone"
+        ).value = student.phone || "";
+
+        setProgrammeValue(
+          student.programme || ""
+        );
+
+        document.getElementById(
+          "editAttendance"
+        ).value =
+          student.attendance || "Attend";
+
+        document.getElementById(
+          "editGuests"
+        ).value =
+          String(student.guests ?? 0);
+
+        document.getElementById(
+          "editSpecialFacilities"
+        ).value =
+          student.special_facilities || "No";
+
+        document.getElementById(
+          "editComments"
+        ).value =
+          student.comments || "";
+
+        editRegistrationMessage.textContent = "";
+        editRegistrationMessage.className =
+          "edit-message";
+
+        editRegistrationModal.classList.remove(
+          "hidden"
+        );
+
+        editRegistrationModal.setAttribute(
+          "aria-hidden",
+          "false"
+        );
+
+        document.body.style.overflow =
+          "hidden";
+
+        document.getElementById(
+          "editFullName"
+        ).focus();
+      }
+
+      function closeEditRegistration() {
+        editRegistrationModal.classList.add(
+          "hidden"
+        );
+
+        editRegistrationModal.setAttribute(
+          "aria-hidden",
+          "true"
+        );
+
+        document.body.style.overflow = "";
+
+        editRegistrationForm.reset();
+
+        editRegistrationMessage.textContent = "";
+        editRegistrationMessage.className =
+          "edit-message";
+      }
+
+      document.getElementById(
+        "closeEditModal"
+      ).addEventListener(
+        "click",
+        closeEditRegistration
+      );
+
+      document.getElementById(
+        "cancelEditButton"
+      ).addEventListener(
+        "click",
+        closeEditRegistration
+      );
+
+      editRegistrationModal.addEventListener(
+        "click",
+        function (event) {
+          if (event.target === editRegistrationModal) {
+            closeEditRegistration();
+          }
+        }
+      );
+
+      document.addEventListener(
+        "keydown",
+        function (event) {
+          if (
+            event.key === "Escape" &&
+            !editRegistrationModal.classList.contains(
+              "hidden"
+            )
+          ) {
+            closeEditRegistration();
+          }
+        }
+      );
+
+      editRegistrationForm.addEventListener(
+        "submit",
+        async function (event) {
+          event.preventDefault();
+
+          const id =
+            document.getElementById(
+              "editRegistrationId"
+            ).value;
+
+          const payload = {
+            full_name:
+              document.getElementById(
+                "editFullName"
+              ).value.trim(),
+
+            email:
+              document.getElementById(
+                "editEmail"
+              ).value.trim(),
+
+            phone:
+              document.getElementById(
+                "editPhone"
+              ).value.trim(),
+
+            programme:
+              document.getElementById(
+                "editProgramme"
+              ).value,
+
+            attendance:
+              document.getElementById(
+                "editAttendance"
+              ).value,
+
+            guests:
+              Number(
+                document.getElementById(
+                  "editGuests"
+                ).value
+              ),
+
+            special_facilities:
+              document.getElementById(
+                "editSpecialFacilities"
+              ).value,
+
+            comments:
+              document.getElementById(
+                "editComments"
+              ).value.trim()
+          };
+
+          saveEditButton.disabled = true;
+          saveEditButton.textContent =
+            "Saving...";
+
+          editRegistrationMessage.textContent =
+            "Saving changes...";
+
+          editRegistrationMessage.className =
+            "edit-message";
+
+          try {
+            const response =
+              await fetch(
+                `/api/admin/registrations/${id}`,
+                {
+                  method: "PATCH",
+
+                  headers: {
+                    "Content-Type":
+                      "application/json"
+                  },
+
+                  body:
+                    JSON.stringify(payload)
+                }
+              );
+
+            const result =
+              await response.json();
+
+            if (!response.ok) {
+              throw new Error(
+                result.message ||
+                "Unable to update registration."
+              );
+            }
+
+            editRegistrationMessage.textContent =
+              result.message ||
+              "Registration updated successfully.";
+
+            editRegistrationMessage.className =
+              "edit-message success";
+
+            await loadRegistrations();
+            await loadStats();
+
+            setTimeout(
+              closeEditRegistration,
+              500
+            );
+
+          } catch (error) {
+            console.error(
+              "Registration update error:",
+              error
+            );
+
+            editRegistrationMessage.textContent =
+              error.message;
+
+            editRegistrationMessage.className =
+              "edit-message error";
+
+          } finally {
+            saveEditButton.disabled = false;
+            saveEditButton.textContent =
+              "Save Changes";
+          }
+        }
+      );
+
+      /* DELETE */
+
+      async function deleteRegistration(id) {
+        const confirmed = confirm("Delete this registration?");
+
+        if (!confirmed) {
+          return;
+        }
+
+        const response = await fetch(`/api/admin/registrations/${id}`, {
+          method: "DELETE",
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          alert(result.message);
+
+          return;
+        }
+
+        alert("Registration deleted.");
+
+        await loadRegistrations();
+
+        await loadStats();
+      }
+
+      /* EXPORT EXCEL */
+
+      function exportExcel() {
+        window.location.href = "/api/admin/export";
+      }
+
+      /* LOGOUT */
+
+document
+  .getElementById("logoutButton")
+  .addEventListener("click", async function () {
+    try {
+      await fetch("/api/admin/logout", {
+        method: "POST",
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+
+    window.location.href = "/login.html";
+  });
+
+      /* HTML SAFETY */
+
+      function escapeHtml(value) {
+        if (value === null || value === undefined) {
+          return "";
+        }
+
+        return String(value)
+          .replaceAll("&", "&amp;")
+
+          .replaceAll("<", "&lt;")
+
+          .replaceAll(">", "&gt;")
+
+          .replaceAll('"', "&quot;")
+
+          .replaceAll("'", "&#039;");
+      }
+
+      function paymentStatusClass(status) {
+        if (status === "Payment Confirmed") {
+          return "status-good";
+        }
+
+        if (status === "Rejected") {
+          return "status-bad";
+        }
+
+        if (status === "Pending Bursary Verification") {
+          return "status-warning";
+        }
+
+        return "status-neutral";
+      }
+
+      function clearanceStatusClass(status) {
+        if (status === "Cleared") {
+          return "status-good";
+        }
+
+        if (status === "Outstanding") {
+          return "status-bad";
+        }
+
+        if (status === "Contact Bursary") {
+          return "status-warning";
+        }
+
+        return "status-neutral";
+      }
+
+      checkSession();
+
+      function viewTracerProof(id) {
+        window.open(
+          `/api/admin/tracer-proof/${id}`,
+          "_blank",
+          "noopener,noreferrer",
+        );
+      }
+
+      async function updateTracerStatus(id, status) {
+        try {
+          const response = await fetch(
+            `/api/admin/registrations/${id}/tracer-status`,
+            {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                status: status,
+              }),
+            },
+          );
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            throw new Error(result.message || "Unable to update status.");
+          }
+
+          alert(result.message);
+
+          await loadRegistrations();
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+    </script>
+  </body>
+</html>

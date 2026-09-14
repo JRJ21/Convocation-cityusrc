@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Login | Convocation 2027</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #101d38,
+                    #182b50
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 480px;
+
+            background: white;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.25);
+
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: #101d38;
+            color: white;
+
+            text-align: center;
+
+            padding: 30px 25px;
+        }
+
+        .login-header h1 {
+            margin: 0 0 8px;
+
+            font-size: 24px;
+        }
+
+        .login-header p {
+            margin: 0;
+
+            color: #d8dce5;
+
+            font-size: 14px;
+        }
+
+        .login-content {
+            padding: 30px;
+        }
+
+        .portal-title {
+            margin-top: 0;
+
+            color: #101d38;
+
+            font-size: 21px;
+        }
+
+        .portal-description {
+            color: #657080;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+
+            line-height: 1.6;
+        }
+
+        .role-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+
+            margin-bottom: 25px;
+        }
+
+        .role-btn {
+            padding: 12px;
+
+            border-radius: 7px;
+
+            border:
+                1px solid #d8dce5;
+
+            background: #f6f7f9;
+
+            color: #101d38;
+
+            cursor: pointer;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .role-btn:hover {
+            border-color: #101d38;
+        }
+
+        .role-btn.active {
+            background: #101d38;
+            color: white;
+
+            border-color: #101d38;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: 600;
+
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px 13px;
+
+            border:
+                1px solid #ccd1d9;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #101d38;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(16, 29, 56, 0.08);
+        }
+
+        .login-submit {
+            width: 100%;
+
+            background: #c8102e;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding: 13px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .login-submit:hover {
+            opacity: 0.92;
+        }
+
+        .message {
+            margin-top: 15px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        .message.error {
+            color: #c8102e;
+        }
+
+        .message.success {
+            color: #137333;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back-link {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #657080;
+
+            font-size: 13px;
+
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #101d38;
+        }
+
+        .staff-note {
+            margin-top: 22px;
+
+            padding: 12px 14px;
+
+            background: #f6f7f9;
+
+            border-left:
+                4px solid #d7a93a;
+
+            border-radius: 5px;
+
+            color: #657080;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        @media (max-width: 500px) {
+            .role-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .login-content {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-header">
+
+        <h1>
+            Convocation 2027
+        </h1>
+
+        <p>
+            City University Malaysia
+            · Sabah Regional Centre
+        </p>
+
+    </div>
+
+
+    <div class="login-content">
+
+        <h2 class="portal-title">
+            Staff Portal
+        </h2>
+
+        <p class="portal-description">
+            Select your department and sign in
+            using your authorised staff credentials.
+        </p>
+
+
+        <div class="role-buttons">
+
+            <button
+                type="button"
+                id="adminRoleBtn"
+                class="role-btn active"
+            >
+                Admin
+            </button>
+
+            <button
+                type="button"
+                id="bursaryRoleBtn"
+                class="role-btn"
+            >
+                Bursary
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN LOGIN -->
+
+        <form id="adminLoginForm">
+
+            <div class="form-group">
+
+                <label for="adminUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="adminUsername"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="adminPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="adminPassword"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-submit"
+            >
+                Login as Admin
+            </button>
+
+        </form>
+
+
+        <!-- BURSARY LOGIN -->
+
+        <form
+            id="bursaryLoginForm"
+            class="hidden"
+        >
+
+            <div class="form-group">
+
+                <label for="bursaryUsername">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="bursaryUsername"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="bursaryPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="bursaryPassword"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-submit"
+            >
+                Login as Bursary
+            </button>
+
+        </form>
+
+
+        <p
+            id="loginMessage"
+            class="message"
+        ></p>
+
+
+        <div class="staff-note">
+            This portal is restricted to authorised
+            Convocation Secretariat and Bursary staff.
+            Students do not need an account to check
+            registration or payment status.
+        </div>
+
+
+        <a
+            href="/"
+            class="back-link"
+        >
+            ← Back to Convocation Website
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const adminRoleBtn =
+        document.getElementById(
+            "adminRoleBtn"
+        );
+
+    const bursaryRoleBtn =
+        document.getElementById(
+            "bursaryRoleBtn"
+        );
+
+    const adminLoginForm =
+        document.getElementById(
+            "adminLoginForm"
+        );
+
+    const bursaryLoginForm =
+        document.getElementById(
+            "bursaryLoginForm"
+        );
+
+    const loginMessage =
+        document.getElementById(
+            "loginMessage"
+        );
+
+
+    /* =============================
+       SWITCH ROLE
+    ============================= */
+
+    adminRoleBtn.addEventListener(
+        "click",
+        function () {
+
+            adminRoleBtn.classList.add(
+                "active"
+            );
+
+            bursaryRoleBtn.classList.remove(
+                "active"
+            );
+
+            adminLoginForm.classList.remove(
+                "hidden"
+            );
+
+            bursaryLoginForm.classList.add(
+                "hidden"
+            );
+
+            loginMessage.textContent = "";
+
+            bursaryLoginForm.reset();
+        }
+    );
+
+
+    bursaryRoleBtn.addEventListener(
+        "click",
+        function () {
+
+            bursaryRoleBtn.classList.add(
+                "active"
+            );
+
+            adminRoleBtn.classList.remove(
+                "active"
+            );
+
+            bursaryLoginForm.classList.remove(
+                "hidden"
+            );
+
+            adminLoginForm.classList.add(
+                "hidden"
+            );
+
+            loginMessage.textContent = "";
+
+            adminLoginForm.reset();
+        }
+    );
+
+
+    /* =============================
+       ADMIN LOGIN
+    ============================= */
+
+    adminLoginForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            loginMessage.textContent =
+                "Signing in...";
+
+            loginMessage.className =
+                "message";
+
+
+            const username =
+                document.getElementById(
+                    "adminUsername"
+                ).value.trim();
+
+            const password =
+                document.getElementById(
+                    "adminPassword"
+                ).value;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/admin/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    username,
+                                    password
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Admin login failed."
+                    );
+                }
+
+
+                loginMessage.textContent =
+                    "Login successful.";
+
+                loginMessage.className =
+                    "message success";
+
+
+                window.location.href =
+                    "/admin.html";
+
+
+            } catch (error) {
+
+                loginMessage.textContent =
+                    error.message;
+
+                loginMessage.className =
+                    "message error";
+            }
+        }
+    );
+
+
+    /* =============================
+       BURSARY LOGIN
+    ============================= */
+
+    bursaryLoginForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            loginMessage.textContent =
+                "Signing in...";
+
+            loginMessage.className =
+                "message";
+
+
+            const username =
+                document.getElementById(
+                    "bursaryUsername"
+                ).value.trim();
+
+            const password =
+                document.getElementById(
+                    "bursaryPassword"
+                ).value;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/bursary/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    username,
+                                    password
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Bursary login failed."
+                    );
+                }
+
+
+                loginMessage.textContent =
+                    "Login successful.";
+
+                loginMessage.className =
+                    "message success";
+
+
+                window.location.href =
+                    "/bursary.html";
+
+
+            } catch (error) {
+
+                loginMessage.textContent =
+                    error.message;
+
+                loginMessage.className =
+                    "message error";
+            }
+        }
+    );
+
+</script>
+
+</body>
+</html>
