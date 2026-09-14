@@ -1,0 +1,19 @@
+# Node packages
+node_modules/
+
+# Environment variables and passwords
+.env
+
+# Private student uploads
+private_uploads/
+
+# Database backups
+*.sql
+
+# NPM logs
+npm-debug.log
+
+# macOS system files
+.DS_Store
+
+.vscode/

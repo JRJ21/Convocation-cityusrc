@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bursary Portal | City University Malaysia</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f6f7f9;
+            color: #1c2430;
+        }
+
+        .topbar {
+            background: #101d38;
+            color: white;
+            padding: 18px 28px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .topbar small {
+            color: #d8dce5;
+        }
+
+        .logout-btn {
+            background: #c8102e;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 24px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 12px;
+
+            border: 1px solid #ccd1d9;
+            border-radius: 6px;
+
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 75px;
+            resize: vertical;
+        }
+
+        .primary-btn {
+            background: #101d38;
+            color: white;
+            border: none;
+
+            padding: 11px 18px;
+            border-radius: 6px;
+
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .primary-btn:hover {
+            opacity: 0.9;
+        }
+
+        .danger-btn {
+            background: #c8102e;
+            color: white;
+            border: none;
+
+            padding: 8px 12px;
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+        .success-btn {
+            background: #137333;
+            color: white;
+            border: none;
+
+            padding: 8px 12px;
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+        .secondary-btn {
+            background: #657080;
+            color: white;
+            border: none;
+
+            padding: 8px 12px;
+            border-radius: 5px;
+
+            cursor: pointer;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .message.error {
+            color: #c8102e;
+        }
+
+        .message.success {
+            color: #137333;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-header h2 {
+            margin: 0;
+            color: #101d38;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1500px;
+        }
+
+        th {
+            background: #101d38;
+            color: white;
+
+            padding: 12px;
+            text-align: left;
+
+            font-size: 13px;
+        }
+
+        td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px;
+
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .status {
+            display: inline-block;
+
+            padding: 5px 9px;
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .pending {
+            background: #fff4ce;
+            color: #7a5900;
+        }
+
+        .confirmed {
+            background: #dff5e5;
+            color: #137333;
+        }
+
+        .rejected {
+            background: #fde2e2;
+            color: #b3261e;
+        }
+
+        .outstanding {
+            background: #fde2e2;
+            color: #b3261e;
+        }
+
+        .cleared {
+            background: #dff5e5;
+            color: #137333;
+        }
+
+        .contact {
+            background: #e8ecf4;
+            color: #374151;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .small-btn {
+            font-size: 12px;
+            padding: 7px 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+
+            gap: 16px;
+
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .summary-card strong {
+            display: block;
+            font-size: 28px;
+            color: #101d38;
+        }
+
+        .summary-card span {
+            color: #657080;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .topbar {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+        }
+
+
+        /* Professional dashboard refinements */
+        body {
+            background: #f3f5f8;
+        }
+
+        .topbar {
+            min-height: 78px;
+            padding: 16px 32px;
+            box-shadow: 0 2px 12px rgba(16, 29, 56, 0.16);
+        }
+
+        .topbar h1 {
+            font-size: 21px;
+        }
+
+        .topbar small {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .container {
+            max-width: 1540px;
+            margin: 0 auto;
+            padding: 30px 28px 42px;
+        }
+
+        .page-heading {
+            margin-bottom: 22px;
+        }
+
+        .page-heading h2 {
+            margin: 0 0 6px;
+            color: #101d38;
+            font-size: 24px;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #657080;
+            font-size: 14px;
+        }
+
+        .summary-grid {
+            gap: 16px;
+        }
+
+        .summary-card {
+            border: 1px solid #e7eaf0;
+            border-top: 4px solid #d7a93a;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(16, 29, 56, 0.06);
+        }
+
+        .summary-card strong {
+            font-size: 30px;
+        }
+
+        .summary-card span {
+            font-weight: 600;
+        }
+
+        .card {
+            border: 1px solid #e7eaf0;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(16, 29, 56, 0.06);
+        }
+
+        .dashboard-header {
+            border-bottom: 1px solid #edf0f4;
+            padding-bottom: 18px;
+            margin-bottom: 16px;
+        }
+
+        .dashboard-header p {
+            margin: 7px 0 0;
+            color: #657080;
+            font-size: 14px;
+        }
+
+        .table-wrapper {
+            border: 1px solid #e7eaf0;
+            border-radius: 10px;
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #fafbfc;
+        }
+
+        textarea,
+        select {
+            background: #fbfcfd;
+            border-color: #d7dce5;
+        }
+
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #101d38;
+            box-shadow: 0 0 0 3px rgba(16, 29, 56, 0.08);
+        }
+
+        .logout-btn,
+        .primary-btn,
+        .secondary-btn,
+        .success-btn,
+        .danger-btn {
+            font-weight: 600;
+            transition: 0.18s ease;
+        }
+
+        .logout-btn:hover,
+        .primary-btn:hover,
+        .secondary-btn:hover,
+        .success-btn:hover,
+        .danger-btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.92;
+        }
+
+        @media (max-width: 900px) {
+            .topbar {
+                padding: 15px 18px;
+            }
+
+            .container {
+                padding: 22px 16px 36px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- DASHBOARD -->
+    <div
+        id="dashboardSection"
+        class="hidden"
+    >
+
+        <header class="topbar">
+
+            <div>
+                <h1>
+                    Convocation 2027 · Bursary Portal
+                </h1>
+
+                <small>
+                    City University Malaysia · Sabah Regional Centre
+                </small>
+            </div>
+
+            <button
+                id="logoutBtn"
+                class="logout-btn"
+            >
+                Logout
+            </button>
+
+        </header>
+
+
+        <main class="container">
+
+            <div class="page-heading">
+                <h2>Bursary Dashboard</h2>
+                <p>Review payment receipts and update Bursary clearance for Convocation 2027.</p>
+            </div>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <strong id="totalPayments">
+                        0
+                    </strong>
+
+                    <span>
+                        Total Receipt Submissions
+                    </span>
+                </div>
+
+                <div class="summary-card">
+                    <strong id="pendingPayments">
+                        0
+                    </strong>
+
+                    <span>
+                        Pending Verification
+                    </span>
+                </div>
+
+                <div class="summary-card">
+                    <strong id="confirmedPayments">
+                        0
+                    </strong>
+
+                    <span>
+                        Payment Confirmed
+                    </span>
+                </div>
+
+                <div class="summary-card">
+                    <strong id="outstandingStudents">
+                        0
+                    </strong>
+
+                    <span>
+                        Outstanding Clearance
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="dashboard-header">
+
+                    <div>
+                        <h2>
+                            Payment Verification
+                        </h2>
+
+                        <p>
+                            Review submitted receipts and
+                            update the student's payment
+                            and Bursary clearance status.
+                        </p>
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        onclick="loadPayments()"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+
+                <p
+                    id="dashboardMessage"
+                    class="message"
+                ></p>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Student</th>
+                                <th>Student ID</th>
+                                <th>Email</th>
+                                <th>Programme</th>
+                                <th>Payment Method</th>
+                                <th>Receipt</th>
+                                <th>Payment Status</th>
+                                <th>Bursary Clearance</th>
+                                <th>Remark</th>
+                                <th>Submitted</th>
+                                <th>Payment Action</th>
+                                <th>Clearance Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="paymentTableBody">
+
+                            <tr>
+                                <td colspan="13">
+                                    Loading...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script>
+        const dashboardSection =
+            document.getElementById(
+                "dashboardSection"
+            );
+        const dashboardMessage =
+            document.getElementById(
+                "dashboardMessage"
+            );
+
+        const paymentTableBody =
+            document.getElementById(
+                "paymentTableBody"
+            );
+
+
+        /* =========================================
+           SESSION CHECK
+        ========================================= */
+
+async function checkBursarySession() {
+    try {
+        const response =
+            await fetch(
+                "/api/bursary/session"
+            );
+
+        const data =
+            await response.json();
+
+        if (!data.loggedIn) {
+            window.location.href =
+                "/login.html";
+
+            return;
+        }
+
+        showDashboard();
+
+        loadPayments();
+
+    } catch (error) {
+        console.error(
+            "Session check error:",
+            error
+        );
+
+        window.location.href =
+            "/login.html";
+    }
+}
+
+        function showDashboard() {
+            dashboardSection.classList.remove("hidden");
+        }
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+ document.getElementById(
+    "logoutBtn"
+).addEventListener(
+    "click",
+    async function () {
+
+        try {
+
+            await fetch(
+                "/api/bursary/logout",
+                {
+                    method: "POST"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+        }
+
+        window.location.href =
+            "/login.html";
+    }
+);
+        /* =========================================
+           LOAD PAYMENTS
+        ========================================= */
+
+        async function loadPayments() {
+
+            dashboardMessage.textContent =
+                "Loading payment records...";
+
+            dashboardMessage.className =
+                "message";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/bursary/payments"
+                    );
+
+
+                if (response.status === 401) {
+                    window.location.href = "/login.html";
+                    return;
+                }
+
+
+                const payments =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        payments.message ||
+                        "Unable to load payment records."
+                    );
+                }
+
+
+                renderPayments(
+                    payments
+                );
+
+
+                updateSummary(
+                    payments
+                );
+
+
+                dashboardMessage.textContent =
+                    `Loaded ${payments.length} payment record(s).`;
+
+                dashboardMessage.className =
+                    "message success";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Load payments error:",
+                    error
+                );
+
+                dashboardMessage.textContent =
+                    error.message;
+
+                dashboardMessage.className =
+                    "message error";
+            }
+        }
+
+
+        /* =========================================
+           RENDER TABLE
+        ========================================= */
+
+        function renderPayments(
+            payments
+        ) {
+
+            paymentTableBody.innerHTML =
+                "";
+
+
+            if (
+                payments.length === 0
+            ) {
+
+                paymentTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="13">
+                            No payment receipts have
+                            been submitted yet.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+
+            payments.forEach(
+                (
+                    payment,
+                    index
+                ) => {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                payment.full_name
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                payment.student_id
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                payment.email
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                payment.programme
+                            )}
+                        </td>
+
+                        <td>
+                            ${
+                                escapeHtml(
+                                    payment.payment_method
+                                ) || "-"
+                            }
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="
+                                    secondary-btn
+                                    small-btn
+                                "
+                                onclick="
+                                    viewReceipt(
+                                        ${payment.id}
+                                    )
+                                "
+                            >
+                                View Receipt
+                            </button>
+
+                            <div
+                                style="
+                                    margin-top: 5px;
+                                    color: #657080;
+                                "
+                            >
+                                ${
+                                    escapeHtml(
+                                        payment
+                                            .payment_receipt_name
+                                    ) || "-"
+                                }
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            ${paymentStatusBadge(
+                                payment.payment_status
+                            )}
+
+                        </td>
+
+                        <td>
+
+                            ${clearanceStatusBadge(
+                                payment
+                                    .outstanding_status
+                            )}
+
+                        </td>
+
+                        <td>
+
+                            <textarea
+                                id="remark-${payment.id}"
+                                placeholder="Optional Bursary remark"
+                            >${
+                                escapeHtml(
+                                    payment.payment_remark ||
+                                    ""
+                                )
+                            }</textarea>
+
+                        </td>
+
+                        <td>
+                            ${
+                                formatDate(
+                                    payment
+                                        .payment_uploaded_at
+                                )
+                            }
+                        </td>
+
+                        <td>
+
+                            <div class="action-group">
+
+                                <button
+                                    type="button"
+                                    class= "success-btn small-btn"
+                                    onclick="
+                                        updatePaymentStatus(
+                                            ${payment.id},
+                                            'Payment Confirmed'
+                                        )
+                                    "
+                                >
+                                    Confirm
+                                </button>
+
+                                <button
+
+                                    type="button"
+                                    class="
+                                        danger-btn
+                                        small-btn
+                                    "
+                                    onclick="
+                                        updatePaymentStatus(
+                                            ${payment.id},
+                                            'Rejected'
+                                        )
+                                    "
+                                >
+                                    Reject
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <select id="clearance-${payment.id}">
+                                
+                                <option
+                                    value="Pending Update"
+                                    ${
+                                        payment
+                                            .outstanding_status === "Pending Update"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    Pending Update
+
+                                </option>
+
+                                <option
+                                    value="Outstanding"
+                                    ${
+                                        payment
+                                            .outstanding_status === "Outstanding"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    Outstanding
+                                </option>
+
+                                <option
+                                    value="Cleared"
+                                    ${
+                                        payment
+                                            .outstanding_status ===
+                                        "Cleared"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    Cleared
+                                </option>
+
+                                <option
+                                    value="Contact Bursary"
+                                    ${
+                                        payment
+                                            .outstanding_status ===
+                                        "Contact Bursary"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    Contact Bursary
+                                </option>
+
+                            </select>
+
+
+                            <button
+                                    type="button"
+                                    class="primary-btn small-btn"
+                                    onclick="updateClearance(${payment.id})"
+                            >
+                                    Update
+                            </button>
+
+                        </td>
+
+                    `;
+
+
+                    paymentTableBody.appendChild(
+                        row
+                    );
+                }
+            );
+        }
+
+
+        /* =========================================
+           VIEW RECEIPT
+        ========================================= */
+
+        function viewReceipt(
+            id
+        ) {
+
+            window.open(
+                `/api/bursary/payment-receipt/${id}`,
+                "_blank"
+            );
+        }
+
+
+        /* =========================================
+           UPDATE PAYMENT STATUS
+        ========================================= */
+
+async function updatePaymentStatus(id, status) {
+    console.log("CONFIRM BUTTON CLICKED", id, status);
+
+    const remarkElement =
+        document.getElementById(`remark-${id}`);
+
+    const remark = remarkElement
+        ? remarkElement.value.trim()
+        : "";
+
+    const confirmed =
+        confirm(
+            `Update payment status to "${status}"?`
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+        const response =
+            await fetch(
+                `/api/bursary/payments/${id}/status`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:
+                        JSON.stringify({
+                            status,
+                            remark
+                        })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Unable to update payment."
+            );
+        }
+
+        alert(data.message);
+
+        await loadPayments();
+
+    } catch (error) {
+        console.error(
+            "Payment update error:",
+            error
+        );
+
+        alert(error.message);
+    }
+}
+
+
+        /* =========================================
+           UPDATE CLEARANCE
+        ========================================= */
+
+async function updateClearance(id) {
+    console.log(
+        "CLEARANCE BUTTON CLICKED",
+        id
+    );
+
+    const clearanceElement =
+        document.getElementById(
+            `clearance-${id}`
+        );
+
+    if (!clearanceElement) {
+        console.error(
+            `Clearance select not found for ID: ${id}`
+        );
+
+        alert(
+            "Clearance dropdown could not be found."
+        );
+
+        return;
+    }
+
+    const status = clearanceElement
+        ? clearanceElement.value
+        : "";
+
+    try {
+        const response =
+            await fetch(
+                `/api/bursary/registrations/${id}/clearance`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:
+                        JSON.stringify({
+                            status
+                        })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message ||
+                "Unable to update clearance."
+            );
+        }
+
+        alert(data.message);
+
+        await loadPayments();
+
+    } catch (error) {
+        console.error(
+            "Clearance update error:",
+            error
+        );
+
+        alert(error.message);
+    }
+}
+
+        /* =========================================
+           SUMMARY
+        ========================================= */
+
+        function updateSummary(
+            payments
+        ) {
+
+            document.getElementById(
+                "totalPayments"
+            ).textContent =
+                payments.length;
+
+
+            document.getElementById(
+                "pendingPayments"
+            ).textContent =
+                payments.filter(
+                    payment =>
+                        payment.payment_status ===
+                        "Pending Bursary Verification"
+                ).length;
+
+
+            document.getElementById(
+                "confirmedPayments"
+            ).textContent =
+                payments.filter(
+                    payment =>
+                        payment.payment_status ===
+                        "Payment Confirmed"
+                ).length;
+
+
+            document.getElementById(
+                "outstandingStudents"
+            ).textContent =
+                payments.filter(
+                    payment =>
+                        payment.outstanding_status ===
+                        "Outstanding"
+                ).length;
+        }
+
+
+        /* =========================================
+           STATUS BADGES
+        ========================================= */
+
+        function paymentStatusBadge(
+            status
+        ) {
+
+            if (
+                status ===
+                "Payment Confirmed"
+            ) {
+
+                return `
+                    <span class="status confirmed">
+                        Payment Confirmed
+                    </span>
+                `;
+            }
+
+
+            if (
+                status ===
+                "Rejected"
+            ) {
+
+                return `
+                    <span class="status rejected">
+                        Rejected
+                    </span>
+                `;
+            }
+
+
+            return `
+                <span class="status pending">
+                    ${
+                        escapeHtml(
+                            status ||
+                            "Pending Bursary Verification"
+                        )
+                    }
+                </span>
+            `;
+        }
+
+
+        function clearanceStatusBadge(
+            status
+        ) {
+
+            if (
+                status ===
+                "Cleared"
+            ) {
+
+                return `
+                    <span class="status cleared">
+                        Cleared
+                    </span>
+                `;
+            }
+
+
+            if (
+                status ===
+                "Outstanding"
+            ) {
+
+                return `
+                    <span class="status outstanding">
+                        Outstanding
+                    </span>
+                `;
+            }
+
+
+            if (
+                status ===
+                "Contact Bursary"
+            ) {
+
+                return `
+                    <span class="status contact">
+                        Contact Bursary
+                    </span>
+                `;
+            }
+
+
+            return `
+                <span class="status pending">
+                    Pending Update
+                </span>
+            `;
+        }
+
+
+        /* =========================================
+           HELPERS
+        ========================================= */
+
+        function formatDate(
+            value
+        ) {
+
+            if (!value) {
+                return "-";
+            }
+
+
+            return new Date(
+                value
+            ).toLocaleString(
+                "en-MY"
+            );
+        }
+
+
+        function escapeHtml(
+            value
+        ) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+                return "";
+            }
+
+
+            return String(
+                value
+            )
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+        }
+
+
+        checkBursarySession();
+
+    </script>
+
+</body>
+</html>
