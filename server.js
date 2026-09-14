@@ -116,10 +116,11 @@ const tracerUpload =
 ========================================= */
 
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD,
-    database: "convocation"
+    database: process.env.DB_NAME || "convocation"
 });
 
 db.connect((error) => {
