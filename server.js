@@ -2235,18 +2235,13 @@ if (error instanceof multer.MulterError) {
 /* =========================================
    START SERVER
 ========================================= */
-app.listen(3000, () => {
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
 
     console.log(
-        "✅ Convocation server is running!"
-    );
-
-    console.log(
-        "Website: http://localhost:3000"
-    );
-
-    console.log(
-        "Admin: http://localhost:3000/admin.html"
+        `✅ Convocation server is running on port ${PORT}!`
     );
 
 });
