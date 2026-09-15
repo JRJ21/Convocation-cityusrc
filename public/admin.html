@@ -1979,6 +1979,26 @@ document
       }
 
       async function updateTracerStatus(id, status) {
+
+          let reason = "";
+
+          if (status === "Rejected") {
+              reason = prompt(
+                  "Please enter the reason for rejecting this Tracer Study proof:"
+              );
+
+              if (reason === null) {
+                  return;
+              }
+
+              reason = reason.trim();
+
+              if (!reason) {
+                  alert("A rejection reason is required.");
+                  return;
+              }
+          }
+
         try {
           const response = await fetch(
             `/api/admin/registrations/${id}/tracer-status`,
@@ -1989,6 +2009,7 @@ document
               },
               body: JSON.stringify({
                 status: status,
+                reason: reason
               }),
             },
           );

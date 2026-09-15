@@ -143,8 +143,9 @@ button {
 }
 
 .main {
-  margin-left: 250px;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .topbar {
@@ -206,9 +207,10 @@ button {
 }
 
 .content {
-  max-width: 1450px;
-  margin: 0 auto;
-  padding: 22px;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .page-section {
@@ -1350,27 +1352,6 @@ details p {
   line-height: 1.6;
 }
 
-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin-top: 28px;
-  padding: 18px 2px 5px;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 9px;
-}
-
-footer strong,
-footer span {
-  display: block;
-}
-
-footer strong {
-  color: var(--navy);
-  font-size: 10px;
-}
-
 @media (max-width: 1050px) {
   .sidebar {
     width: 225px;
@@ -1506,15 +1487,10 @@ footer strong {
     border-bottom: 1px solid var(--border);
   }
 
-  footer {
-    flex-direction: column;
-  }
-
   .page-header h1 {
     font-size: 25px;
   }
 }
-
 
 /* HEADER IMAGE */
 .hero-image {
@@ -1861,18 +1837,6 @@ input:focus, select:focus, textarea:focus { border-color:var(--red); box-shadow:
 .faq-list summary { font-size:14px; color:var(--navy); padding:17px 18px; }
 .faq-list details p { font-size:13px; padding:0 18px 16px; }
 
-footer {
-  margin-top:38px;
-  padding:26px 2px 8px;
-  border-top:1px solid var(--border);
-  color:var(--muted);
-}
-.footer-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.footer-grid > div { display:flex; flex-direction:column; gap:3px; }
-.footer-grid strong { color:var(--navy); font-size:13px; }
-.footer-grid span, .footer-copy { font-size:12px; }
-.footer-copy { display:block; margin-top:18px; }
-
 @media (max-width: 1100px) {
   .quick-grid { grid-template-columns: repeat(2, 1fr); }
   .quick-card-primary { grid-column: 1 / -1; }
@@ -1894,7 +1858,6 @@ footer {
   .home-grid, .dress-grid, .dos-donts-grid, .form-grid, .choice-grid { grid-template-columns:1fr; }
   .quick-grid { grid-template-columns:1fr; }
   .quick-card-primary { grid-column:auto; }
-  .footer-grid { grid-template-columns:1fr; }
 }
 
 @media (max-width: 520px) {
@@ -1911,7 +1874,6 @@ footer {
   .registration-banner > div { border-bottom:1px solid var(--border); }
   .registration-banner > div:last-child { border-bottom:0; }
 }
-
 
 /* ===== Final home-page fixes ===== */
 .home-grid {
@@ -1953,10 +1915,6 @@ footer {
 .announcement-card {
   height: auto;
   align-self: start;
-}
-
-footer {
-  margin-top: 28px;
 }
 
 /* Make sure stray raw text can never create layout spacing around sections */
@@ -2187,7 +2145,6 @@ footer {
     margin: 24px 0;
 }
 
-
 /* UPLOAD */
 
 .tracer-upload {
@@ -2271,7 +2228,6 @@ footer {
     color: #7a8493;
 }
 
-
 /* FILE STATUS */
 
 .tracer-file-status {
@@ -2310,7 +2266,6 @@ footer {
     font-size: 12px;
 }
 
-
 /* UPLOAD SUCCESS */
 
 .tracer-file-status.uploaded {
@@ -2321,7 +2276,6 @@ footer {
 .tracer-file-status.uploaded .status-dot {
     background: #2d8a4e;
 }
-
 
 /* SUBMISSION LOCK */
 
@@ -2353,7 +2307,6 @@ footer {
     margin-top: 2px;
 }
 
-
 /* ENABLED */
 
 .submission-lock-message.completed {
@@ -2377,7 +2330,6 @@ footer {
     gap: 14px;
 }
 
-
 .guest-info-card {
     display: flex;
     align-items: center;
@@ -2395,12 +2347,10 @@ footer {
     transition: 0.2s ease;
 }
 
-
 .guest-info-card:hover {
     transform: translateY(-2px);
     border-color: #ccd4de;
 }
-
 
 .guest-info-icon {
     width: 48px;
@@ -2421,11 +2371,9 @@ footer {
     font-weight: 800;
 }
 
-
 .guest-info-content {
     flex: 1;
 }
-
 
 .guest-info-content h3 {
     margin: 0 0 6px;
@@ -2434,7 +2382,6 @@ footer {
     font-size: 15px;
 }
 
-
 .guest-info-content p {
     margin: 0;
 
@@ -2442,7 +2389,6 @@ footer {
     font-size: 12px;
     line-height: 1.55;
 }
-
 
 /* MOBILE */
 
@@ -2509,7 +2455,6 @@ footer {
     padding: 28px;
 }
 
-
 /* STUDENT IDENTITY */
 
 .registration-result-header {
@@ -2544,7 +2489,6 @@ footer {
     color: var(--navy);
 }
 
-
 /* =========================================
    TRACER STUDY HIGHLIGHT
 ========================================= */
@@ -2564,7 +2508,6 @@ footer {
     border-radius: 12px;
 }
 
-
 /* ICON */
 
 .tracer-highlight-icon {
@@ -2582,7 +2525,6 @@ footer {
     font-size: 22px;
     font-weight: 800;
 }
-
 
 /* TEXT */
 
@@ -2617,7 +2559,6 @@ footer {
     line-height: 1.5;
 }
 
-
 /* SUBMITTED */
 
 .tracer-highlight-submitted {
@@ -2636,7 +2577,6 @@ footer {
 .tracer-highlight-submitted h3 {
     color: #80600d;
 }
-
 
 /* VERIFIED */
 
@@ -2657,7 +2597,6 @@ footer {
     color: #176b43;
 }
 
-
 /* REJECTED */
 
 .tracer-highlight-rejected {
@@ -2676,7 +2615,6 @@ footer {
 .tracer-highlight-rejected h3 {
     color: #a61e30;
 }
-
 
 /* =========================================
    STUDENT DETAILS
@@ -2727,7 +2665,6 @@ footer {
 .detail-full {
     grid-column: 1 / -1;
 }
-
 
 /* MOBILE */
 
@@ -2895,7 +2832,6 @@ footer {
     line-height: 1.5;
 }
 
-
 /* SUBMITTED */
 
 .tracer-highlight-submitted {
@@ -2914,7 +2850,6 @@ footer {
 .tracer-highlight-submitted h3 {
     color: #856404;
 }
-
 
 /* VERIFIED */
 
@@ -2935,7 +2870,6 @@ footer {
     color: #0f5132;
 }
 
-
 /* REJECTED */
 
 .tracer-highlight-rejected {
@@ -2955,7 +2889,6 @@ footer {
     color: #842029;
 }
 
-
 @media (max-width: 600px) {
     .tracer-highlight {
         align-items: flex-start;
@@ -2974,7 +2907,6 @@ footer {
     margin-top: 20px;
     padding: 28px;
 }
-
 
 /* REGISTRATION RECORD */
 
@@ -3002,7 +2934,6 @@ footer {
     color: var(--muted);
     font-size: 13px;
 }
-
 
 /* TRACER STUDY STATUS */
 
@@ -3061,7 +2992,6 @@ footer {
     line-height: 1.5;
 }
 
-
 /* SUBMITTED */
 
 .tracer-highlight-submitted {
@@ -3078,7 +3008,6 @@ footer {
 .tracer-highlight-submitted h3 {
     color: #80600d;
 }
-
 
 /* VERIFIED */
 
@@ -3097,7 +3026,6 @@ footer {
     color: #176b43;
 }
 
-
 /* REJECTED */
 
 .tracer-highlight-rejected {
@@ -3114,7 +3042,6 @@ footer {
 .tracer-highlight-rejected h3 {
     color: #a61e30;
 }
-
 
 /* REGISTRATION DETAILS */
 
@@ -3159,7 +3086,6 @@ footer {
     grid-column: 1 / -1;
 }
 
-
 /* NEED ASSISTANCE */
 
 .registration-help {
@@ -3171,7 +3097,6 @@ footer {
     border-left: 4px solid var(--gold);
     border-radius: 9px;
 }
-
 
 /* MOBILE */
 
@@ -3269,7 +3194,6 @@ footer {
     color: #657080;
 }
 
-
 /* PENDING */
 
 .status-highlight-pending {
@@ -3282,7 +3206,6 @@ footer {
     background: #f8e8b5;
     color: #8b6508;
 }
-
 
 /* SUCCESS */
 
@@ -3297,7 +3220,6 @@ footer {
     color: #24723d;
 }
 
-
 /* WARNING / OUTSTANDING */
 
 .status-highlight-warning {
@@ -3310,7 +3232,6 @@ footer {
     background: #ffe0b5;
     color: #9a5700;
 }
-
 
 /* ERROR / REJECTED */
 
@@ -3325,7 +3246,6 @@ footer {
     color: #a62525;
 }
 
-
 /* NEUTRAL */
 
 .status-highlight-neutral {
@@ -3338,7 +3258,6 @@ footer {
     background: #e8ebef;
     color: #657080;
 }
-
 
 /* PAYMENT EXTRA INFORMATION */
 
@@ -3373,7 +3292,6 @@ footer {
 .payment-remark p {
     margin-top: 4px;
 }
-
 
 /* MOBILE */
 
@@ -3503,7 +3421,6 @@ footer {
     color: #101d38;
 }
 
-
 /* =========================================
    PAYMENT RECEIPT FORM
    ========================================= */
@@ -3628,7 +3545,6 @@ footer {
     line-height: 1.6;
 }
 
-
 /* MOBILE */
 
 @media (max-width: 700px) {
@@ -3684,7 +3600,6 @@ footer {
 .privacy-contact {
     margin-bottom: 0 !important;
 }
-
 
 /* =========================================
    FINAL PAGE WIDTH FIX
@@ -3837,4 +3752,737 @@ body {
 .language-switcher .lang-btn.active {
   background: #101d38 !important;
   color: #ffffff !important;
+}
+
+/* =========================================
+   CITY UNIVERSITY SIDEBAR LOGO
+   ========================================= */
+
+.brand-logo {
+    display: block;
+    width: 190px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 10px;
+    object-fit: contain;
+}
+
+.brand > small {
+    display: block;
+    text-align: center;
+}
+
+/* =========================================
+   CEREMONY GUIDELINES VIDEO
+   ========================================= */
+
+.guidelines-video {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 28px;
+}
+
+.guidelines-video video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(16, 29, 56, 0.12);
+    background: #000;
+}
+
+/* =========================================================
+   DRESS CODE
+========================================================= */
+
+#dress-code {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+/* Main graduation attire container */
+.dresscode-feature {
+    margin-top: 26px;
+    margin-bottom: 34px;
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(16, 29, 56, 0.10);
+}
+
+.dresscode-feature-head {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px 28px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #9f001b, #d7193f);
+}
+
+.dresscode-cap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+    font-size: 32px;
+}
+
+.dresscode-feature-head h2 {
+    margin: 0 0 3px;
+    font-size: 26px;
+    color: #ffffff;
+}
+
+.dresscode-feature-head p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Male / Female robe cards */
+.attire-display {
+    margin: 24px;
+    border: 1px solid #e8ebf1;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.attire-title {
+    padding: 18px 24px;
+    background: linear-gradient(90deg, #fff5f6, #ffffff);
+    border-bottom: 1px solid #edf0f5;
+}
+
+.attire-title span {
+    display: block;
+    margin-bottom: 4px;
+    color: #c8102e;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.attire-title h2 {
+    margin: 0;
+    color: #10213d;
+    font-size: 24px;
+}
+
+.attire-title p {
+    margin: 5px 0 0;
+    color: #667085;
+}
+
+.attire-photo {
+    padding: 16px;
+    background: #f7f9fc;
+}
+
+.attire-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+/* Official guide cards */
+.dresscode-guide-card {
+    margin: 0 0 32px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e8ebf1;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(16, 29, 56, 0.08);
+}
+
+.dresscode-guide-heading {
+    margin-bottom: 18px;
+}
+
+.dresscode-guide-heading > span {
+    display: inline-block;
+    margin-bottom: 6px;
+    color: #c8102e;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.dresscode-guide-heading h2 {
+    margin: 0 0 6px;
+    color: #10213d;
+    font-size: 26px;
+}
+
+.dresscode-guide-heading p {
+    margin: 0;
+    color: #667085;
+    line-height: 1.6;
+}
+
+.dresscode-poster {
+    overflow: hidden;
+    border-radius: 14px;
+    background: #f5f6f8;
+    border: 1px solid #eceef2;
+}
+
+.dresscode-poster img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Important notes */
+.dresscode-important {
+    display: flex;
+    gap: 18px;
+    margin: 10px 0 34px;
+    padding: 24px 28px;
+    border: 1px solid #f5d9df;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #fff4f6, #fffafa);
+}
+
+.dresscode-important-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 50%;
+    background: #d7193f;
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.dresscode-important h3 {
+    margin: 1px 0 10px;
+    color: #b20d2d;
+    font-size: 20px;
+}
+
+.dresscode-important ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #344054;
+    line-height: 1.75;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+
+    .dresscode-feature-head {
+        padding: 18px;
+    }
+
+    .dresscode-feature-head h2 {
+        font-size: 22px;
+    }
+
+    .dresscode-cap {
+        width: 42px;
+        height: 42px;
+        font-size: 26px;
+    }
+
+    .attire-display {
+        margin: 14px;
+    }
+
+    .attire-title {
+        padding: 16px 18px;
+    }
+
+    .attire-title h2 {
+        font-size: 21px;
+    }
+
+    .attire-photo {
+        padding: 8px;
+    }
+
+    .dresscode-guide-card {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    .dresscode-guide-heading h2 {
+        font-size: 22px;
+    }
+
+    .dresscode-important {
+        padding: 20px;
+    }
+}
+
+
+/* =========================================================
+   DRESS CODE - COMPACT SIZE
+========================================================= */
+
+#dress-code {
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+/* Male / Female robe sections */
+.attire-display {
+    max-width: 850px;
+    margin: 20px auto;
+}
+
+.attire-photo {
+    padding: 12px;
+    text-align: center;
+}
+
+.attire-photo img {
+    width: 100%;
+    max-width: 760px;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* Graduand / Guest dress-code posters */
+.dresscode-guide-card {
+    max-width: 900px;
+    margin: 0 auto 26px;
+}
+
+.dresscode-poster {
+    text-align: center;
+    padding: 10px;
+}
+
+.dresscode-poster img {
+    width: 100%;
+    max-width: 820px;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* Important notes */
+.dresscode-important {
+    max-width: 900px;
+    margin: 10px auto 34px;
+}
+
+/* Keep mobile full width */
+@media (max-width: 700px) {
+    #dress-code,
+    .attire-display,
+    .dresscode-guide-card,
+    .dresscode-important {
+        max-width: 100%;
+    }
+
+    .attire-photo img,
+    .dresscode-poster img {
+        max-width: 100%;
+    }
+}
+
+/* Dress Code - Male & Female side by side */
+.attire-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    padding: 18px;
+}
+
+.attire-grid .attire-display {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+.attire-grid .attire-title {
+    padding: 14px 18px;
+}
+
+.attire-grid .attire-title h2 {
+    font-size: 20px;
+}
+
+.attire-grid .attire-title p {
+    font-size: 13px;
+}
+
+.attire-grid .attire-photo {
+    padding: 8px;
+}
+
+.attire-grid .attire-photo img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+}
+
+/* Stack vertically on phones */
+@media (max-width: 750px) {
+    .attire-grid {
+        grid-template-columns: 1fr;
+        padding: 12px;
+    }
+}
+/* =========================================================
+   STANDARDIZE DRESS CODE WITH OTHER PORTAL PAGES
+========================================================= */
+
+#dress-code {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+/* Graduation attire container uses normal page width */
+#dress-code .dresscode-feature {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Male + Female remain compact and side-by-side */
+#dress-code .attire-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+#dress-code .attire-display {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+/* Other Dress Code sections should also follow page width */
+#dress-code .dresscode-guide-card,
+#dress-code .dresscode-important {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+/* Keep posters from becoming unnecessarily huge */
+#dress-code .dresscode-poster {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Mobile */
+@media (max-width: 750px) {
+    #dress-code .attire-grid {
+        grid-template-columns: 1fr;
+        padding: 12px;
+    }
+}
+/* =========================================================
+   DRESS CODE GUIDE - RESPONSIVE STANDARD LAYOUT
+========================================================= */
+
+#dress-code .dresscode-guide-card {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.7fr) minmax(420px, 1.3fr);
+    align-items: center;
+    gap: 32px;
+
+    width: 100%;
+    max-width: none;
+    margin: 0 0 24px;
+    padding: 24px 28px;
+    box-sizing: border-box;
+}
+
+#dress-code .dresscode-guide-heading {
+    margin: 0;
+}
+
+#dress-code .dresscode-poster {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+#dress-code .dresscode-poster img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* Normal laptop / tablet */
+@media (max-width: 1100px) {
+    #dress-code .dresscode-guide-card {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    #dress-code .dresscode-poster {
+        max-width: 820px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    #dress-code .dresscode-guide-card {
+        padding: 16px;
+    }
+
+    #dress-code .dresscode-poster {
+        max-width: 100%;
+    }
+}
+
+#dress-code .dresscode-poster {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.dresscode-guide-points {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dresscode-guide-points li {
+    position: relative;
+    margin-bottom: 12px;
+    padding-left: 24px;
+    color: #53647a;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.dresscode-guide-points li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #d7193f;
+    font-weight: 800;
+}
+/* =========================================================
+   SIMPLE PORTAL FOOTER
+========================================================= */
+
+.site-footer {
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 24px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+}
+
+.footer-simple {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 0.9fr 1.35fr;
+    align-items: start;
+    gap: 32px;
+
+    padding: 20px 2px 12px;
+    border-top: 1px solid #d8dee7;
+}
+
+.footer-simple-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.footer-simple-section strong {
+    color: #10213d;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.footer-simple-section span,
+.footer-simple-section a {
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.footer-simple-section a {
+    text-decoration: none;
+}
+
+.footer-simple-section a:hover {
+    color: #d7193f;
+}
+
+.footer-simple-copyright {
+    align-self: center;
+    color: #667085;
+    font-size: 12px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* Tablet / Mobile */
+@media (max-width: 1000px) {
+    .footer-simple {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px 30px;
+    }
+
+    .footer-simple-copyright {
+        text-align: left;
+        white-space: normal;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-simple {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+}
+
+/* FINAL FOOTER HEIGHT FIX */
+.site-footer {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+}
+
+.footer-simple {
+    margin: 0 !important;
+    padding-top: 18px !important;
+    padding-bottom: 10px !important;
+}
+
+/* CEREMONY GUIDELINES YOUTUBE GUIDE */
+
+.guidelines-video {
+    width: 100%;
+    max-width: none;
+    margin: 28px 0 22px;
+    padding: 22px 26px;
+
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    background: #fff1f3;
+    border: 1px solid #f4a6b5;
+    border-radius: 14px;
+
+    text-align: left;
+    box-sizing: border-box;
+}
+.youtube-guide-icon {
+    width: 86px;
+    height: 86px;
+    flex: 0 0 86px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffe1e6;
+    border-radius: 50%;
+}
+
+.youtube-guide-icon svg {
+    width: 52px;
+    height: 52px;
+}
+
+.youtube-guide-icon svg path {
+    fill: #ff0000;
+}
+
+.youtube-guide-icon svg polygon {
+    fill: #ffffff;
+}
+
+.youtube-guide-content {
+    flex: 1;
+}
+
+.youtube-guide-content h2 {
+    margin: 0 0 6px;
+    color: #a50f29;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.youtube-guide-content p {
+    margin: 0 0 14px;
+    color: #53647a;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.guidelines-video-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 12px 20px;
+
+    background: #d7193f;
+    color: #ffffff;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.guidelines-video-link:hover {
+    background: #b51230;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 700px) {
+    .guidelines-video {
+        align-items: flex-start;
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .youtube-guide-icon {
+        width: 58px;
+        height: 58px;
+        flex-basis: 58px;
+    }
+
+    .youtube-guide-icon svg {
+        width: 38px;
+        height: 38px;
+    }
+
+    .youtube-guide-content h2 {
+        font-size: 16px;
+    }
+
+    .guidelines-video-link {
+        width: 100%;
+        font-size: 12px;
+        padding: 11px 14px;
+    }
 }

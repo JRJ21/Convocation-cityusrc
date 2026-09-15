@@ -590,12 +590,23 @@ app.patch(
     (req, res) => {
 
         const id = Number(req.params.id);
-        const { status } = req.body;
+        const {status, reason} = req.body;
+   
 
         const allowedStatuses = [
             "Verified",
             "Rejected"
         ];
+
+        if (
+            status === "Rejected" &&
+            (!reason || !String(reason).trim())
+        ) {
+            return res.status(400).json({
+                message:
+                    "Please provide a reason for rejecting the Tracer Study."
+            });
+        }
 
         if (!allowedStatuses.includes(status)) {
             return res.status(400).json({
@@ -604,34 +615,48 @@ app.patch(
         }
 
         db.query(
-            `
-            UPDATE registrations
-            SET tracer_status = ?
-            WHERE id = ?
-            `,
-            [status, id],
-            (error, result) => {
+                `
+                UPDATE registrations
+                SET
+                    tracer_status = ?,
+                    tracer_rejection_reason = ?,
+                    tracer_notification_sent_at = NULL
+                WHERE id = ?
+                `,
+                [
+                    status,
+                    status === "Rejected"
+                        ? String(reason).trim()
+                        : null,
+                    id
+                ],
+                (error, result) => {
 
-                if (error) {
-                    return res.status(500).json({
+                    if (error) {
+                        console.error(
+                            "Tracer status update error:",
+                            error
+                        );
+
+                        return res.status(500).json({
+                            message:
+                                "Unable to update tracer status."
+                        });
+                    }
+
+                    if (result.affectedRows === 0) {
+                        return res.status(404).json({
+                            message:
+                                "Registration not found."
+                        });
+                    }
+
+                    res.json({
                         message:
-                            "Unable to update tracer status."
+                            `Tracer Study marked as ${status}.`
                     });
                 }
-
-                if (result.affectedRows === 0) {
-                    return res.status(404).json({
-                        message:
-                            "Registration not found."
-                    });
-                }
-
-                res.json({
-                    message:
-                        `Tracer Study marked as ${status}.`
-                });
-            }
-        );
+            );
     }
 );
 
@@ -732,6 +757,7 @@ app.post(
 
                 tracer_status,
                 tracer_uploaded_at,
+                tracer_rejection_reason,
 
                 outstanding_status,
                 outstanding_updated_at,
@@ -899,7 +925,9 @@ app.post(
                         tracer_proof_path = ?,
                         tracer_proof_name = ?,
                         tracer_status = ?,
-                        tracer_uploaded_at = NOW()
+                        tracer_uploaded_at = NOW(),
+                        tracer_rejection_reason = NULL,
+                        tracer_notification_sent_at = NULL
                     WHERE id = ?
                 `;
 
