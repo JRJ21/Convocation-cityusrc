@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2");
 const session = require("express-session");
+const MySQLStore = require("express-mysql-session")(session);
 const ExcelJS = require("exceljs");
 const multer = require("multer");
 const path = require("path");
@@ -13,6 +14,16 @@ const app = express();
 
 app.set("trust proxy", 1);
 
+const sessionStore = new MySQLStore({
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || "convocation",
+
+    createDatabaseTable: true
+});
+
 /* =========================================
    MIDDLEWARE
 ========================================= */
@@ -22,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
     session({
+        store: sessionStore,
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
@@ -776,6 +788,202 @@ app.post(
 );
 
 /* =========================================
+   STUDENT RE-UPLOAD TRACER STUDY PROOF
+========================================= */
+
+app.post(
+    "/api/student/tracer-proof",
+
+    tracerUpload.single("tracerProof"),
+
+    (req, res) => {
+
+        const {
+            student_id,
+            email
+        } = req.body;
+
+
+        if (!student_id || !email) {
+
+            if (req.file) {
+                fs.unlink(req.file.path, () => {});
+            }
+
+            return res.status(400).json({
+                message:
+                    "Student ID and registered email address are required."
+            });
+        }
+
+
+        if (!req.file) {
+
+            return res.status(400).json({
+                message:
+                    "Please upload a new Tracer Study proof."
+            });
+        }
+
+
+        const findSql = `
+            SELECT
+                id,
+                tracer_status,
+                tracer_proof_path
+            FROM registrations
+            WHERE student_id = ?
+            AND LOWER(email) = LOWER(?)
+            LIMIT 1
+        `;
+
+
+        db.query(
+            findSql,
+            [
+                student_id.trim(),
+                email.trim()
+            ],
+            (findError, results) => {
+
+                if (findError) {
+
+                    console.error(
+                        "Tracer re-upload lookup error:",
+                        findError
+                    );
+
+                    fs.unlink(req.file.path, () => {});
+
+                    return res.status(500).json({
+                        message:
+                            "Unable to verify student information."
+                    });
+                }
+
+
+                if (results.length === 0) {
+
+                    fs.unlink(req.file.path, () => {});
+
+                    return res.status(404).json({
+                        message:
+                            "No registration record was found."
+                    });
+                }
+
+
+                const student = results[0];
+
+
+                /* Only rejected proof may be replaced */
+
+                if (student.tracer_status !== "Rejected") {
+
+                    fs.unlink(req.file.path, () => {});
+
+                    return res.status(409).json({
+                        message:
+                            "Tracer Study proof can only be re-uploaded after it has been rejected."
+                    });
+                }
+
+
+                const oldTracerProof =
+                    student.tracer_proof_path;
+
+
+                const updateSql = `
+                    UPDATE registrations
+                    SET
+                        tracer_proof_path = ?,
+                        tracer_proof_name = ?,
+                        tracer_status = ?,
+                        tracer_uploaded_at = NOW()
+                    WHERE id = ?
+                `;
+
+
+                db.query(
+                    updateSql,
+                    [
+                        req.file.filename,
+                        req.file.originalname,
+                        "Submitted",
+                        student.id
+                    ],
+                    (updateError) => {
+
+                        if (updateError) {
+
+                            console.error(
+                                "Tracer re-upload update error:",
+                                updateError
+                            );
+
+                            fs.unlink(
+                                req.file.path,
+                                () => {}
+                            );
+
+                            return res.status(500).json({
+                                message:
+                                    "Unable to save the new Tracer Study proof."
+                            });
+                        }
+
+
+                        /*
+                           Delete old proof only after
+                           new proof is successfully saved
+                        */
+
+                        if (oldTracerProof) {
+
+                            const safeOldFilename =
+                                path.basename(
+                                    oldTracerProof
+                                );
+
+                            const oldFilePath =
+                                path.join(
+                                    tracerUploadDirectory,
+                                    safeOldFilename
+                                );
+
+
+                            if (fs.existsSync(oldFilePath)) {
+
+                                fs.unlink(
+                                    oldFilePath,
+                                    (fileError) => {
+
+                                        if (fileError) {
+                                            console.error(
+                                                "Unable to delete old Tracer Study proof:",
+                                                fileError
+                                            );
+                                        }
+                                    }
+                                );
+                            }
+                        }
+
+
+                        res.json({
+                            message:
+                                "New Tracer Study proof submitted successfully and is pending verification.",
+                            tracer_status:
+                                "Submitted"
+                        });
+                    }
+                );
+            }
+        );
+    }
+);
+
+/* =========================================
    ADMIN EDIT REGISTRATION
 ========================================= */
 
@@ -1018,7 +1226,8 @@ app.delete(
             `
             SELECT
                 tracer_proof_path,
-                payment_receipt_path
+                payment_receipt_path,
+                payment_status
             FROM registrations
             WHERE id = ?
             LIMIT 1
@@ -1054,6 +1263,21 @@ app.delete(
 
                 const paymentReceiptPath =
                     results[0].payment_receipt_path;
+
+                /* =========================================
+                PROTECT BURSARY-CONFIRMED PAYMENT
+                ========================================= */
+
+                const paymentStatus =
+                    results[0].payment_status;
+
+                if (paymentStatus === "Payment Confirmed") {
+
+                    return res.status(409).json({
+                        message:
+                            "This registration cannot be deleted because the student's payment has already been confirmed by Bursary. Please reject the Tracer Study submission and request a new upload instead."
+                    });
+                }
 
 
                 /* =========================================

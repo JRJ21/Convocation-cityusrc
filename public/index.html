@@ -697,6 +697,49 @@
         </div>
     </div>
 
+<!-- TRACER STUDY RE-UPLOAD -->
+<div
+    class="card"
+    id="tracerReuploadBox"
+    hidden
+>
+    <span class="eyebrow">
+        ACTION REQUIRED
+    </span>
+
+    <h3>Re-upload Tracer Study Proof</h3>
+
+    <p>
+        Your previous Tracer Study proof could not be verified.
+        Please upload a new valid proof for verification.
+    </p>
+
+    <input
+        type="file"
+        id="tracerReuploadFile"
+        accept=".jpg,.jpeg,.png,.pdf"
+    >
+
+    <small>
+        Accepted files: JPG, PNG or PDF. Maximum 5 MB.
+    </small>
+
+    <br><br>
+
+    <button
+        type="button"
+        class="primary-btn"
+        id="submitTracerReuploadBtn"
+    >
+        Submit New Tracer Study Proof
+    </button>
+
+    <p
+        id="tracerReuploadMessage"
+        class="form-message"
+    ></p>
+</div>
+
 <!-- BURSARY CLEARANCE STATUS -->
 <div
     class="status-highlight status-highlight-pending"
@@ -2107,6 +2150,15 @@ function displayStudentRegistration(student) {
             "Your Tracer Study proof has been submitted and is waiting for verification.";
     }
 
+        /* Show re-upload option only when Tracer Study is rejected */
+    const tracerReuploadBox =
+        document.getElementById("tracerReuploadBox");
+
+    if (tracerReuploadBox) {
+        tracerReuploadBox.hidden =
+            status !== "Rejected";
+}
+
     /* =========================================
    BURSARY CLEARANCE STATUS
    ========================================= */
@@ -2854,6 +2906,150 @@ translationObserver.observe(
         subtree: true
     }
 );
+
+/* =========================================
+   TRACER STUDY RE-UPLOAD
+========================================= */
+
+const submitTracerReuploadBtn =
+    document.getElementById(
+        "submitTracerReuploadBtn"
+    );
+
+if (submitTracerReuploadBtn) {
+
+    submitTracerReuploadBtn.addEventListener(
+        "click",
+        async function () {
+
+            const fileInput =
+                document.getElementById(
+                    "tracerReuploadFile"
+                );
+
+            const message =
+                document.getElementById(
+                    "tracerReuploadMessage"
+                );
+
+            const studentId =
+                document.getElementById(
+                    "registrationStatusStudentId"
+                ).value.trim();
+
+            const email =
+                document.getElementById(
+                    "registrationStatusEmail"
+                ).value.trim();
+
+
+            message.textContent = "";
+
+
+            if (!fileInput.files.length) {
+
+                message.textContent =
+                    "Please choose a new Tracer Study proof.";
+
+                return;
+            }
+
+
+            const file =
+                fileInput.files[0];
+
+
+            if (file.size > 5 * 1024 * 1024) {
+
+                message.textContent =
+                    "Tracer Study proof must not exceed 5 MB.";
+
+                return;
+            }
+
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "student_id",
+                studentId
+            );
+
+            formData.append(
+                "email",
+                email
+            );
+
+            formData.append(
+                "tracerProof",
+                file
+            );
+
+
+            submitTracerReuploadBtn.disabled =
+                true;
+
+            submitTracerReuploadBtn.textContent =
+                "Uploading...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/student/tracer-proof",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to upload Tracer Study proof."
+                    );
+                }
+
+
+                message.textContent =
+                    result.message;
+
+                fileInput.value = "";
+
+
+                /*
+                   Refresh student's registration
+                   status after successful upload
+                */
+
+                await checkStudentRegistration();
+
+
+            } catch (error) {
+
+                message.textContent =
+                    error.message;
+
+            } finally {
+
+                submitTracerReuploadBtn.disabled =
+                    false;
+
+                submitTracerReuploadBtn.textContent =
+                    "Submit New Tracer Study Proof";
+            }
+        }
+    );
+}
+
 </script>
 </body>
 </html>
