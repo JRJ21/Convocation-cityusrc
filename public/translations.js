@@ -26,7 +26,7 @@ const bmTranslations = {
     "After Convocation": "Selepas Konvokesyen",
     "Staff Directory": "Direktori Staf",
     "FAQ": "Soalan Lazim",
-    "Login": "Log Masuk",
+    "Staff Login": "Log Masuk Staf",
 
     "MAIN MENU": "MENU UTAMA",
     "CONVOCATION": "KONVOKESYEN",
@@ -1004,5 +1004,122 @@ const bmPlaceholders = {
         "Pilih program anda",
 
     "Optional":
-        "Pilihan"
+        "Pilihan",
+
+    /* =========================
+   DYNAMIC / POP-UP MESSAGES
+   ========================= */
+
+    "Please upload your Tracer Study proof before submitting.":
+        "Sila muat naik bukti Kajian Pengesanan Graduan anda sebelum menghantar pendaftaran.",
+
+    "Registration failed.":
+        "Pendaftaran gagal.",
+
+    "Registration submitted successfully.":
+        "Pendaftaran berjaya dihantar.",
+
+    "Please enter your Student ID and registered email address.":
+        "Sila masukkan ID Pelajar dan alamat e-mel berdaftar anda.",
+
+    "Unable to check registration status.":
+        "Tidak dapat menyemak status pendaftaran.",
+
+    "No registration record was found.":
+        "Tiada rekod pendaftaran ditemui.",
+
+    "Checking...":
+        "Sedang Menyemak...",
+
+    "Submitting...":
+        "Sedang Menghantar...",
+
+    "Uploading...":
+        "Sedang Memuat Naik...",
+
+    "Please choose a new Tracer Study proof.":
+        "Sila pilih bukti Kajian Pengesanan Graduan yang baharu.",
+
+    "Tracer Study proof must not exceed 5 MB.":
+        "Bukti Kajian Pengesanan Graduan tidak boleh melebihi 5 MB.",
+
+    "Unable to upload Tracer Study proof.":
+        "Tidak dapat memuat naik bukti Kajian Pengesanan Graduan.",
+
+    "Submit New Tracer Study Proof":
+        "Hantar Bukti Kajian Pengesanan Graduan Baharu",
+
+    "Please select a payment method.":
+        "Sila pilih kaedah pembayaran.",
+
+    "Please select your payment receipt.":
+        "Sila pilih resit pembayaran anda.",
+
+    "Payment receipt must not exceed 5 MB.":
+        "Resit pembayaran tidak boleh melebihi 5 MB.",
+
+    "Unable to submit payment receipt.":
+        "Tidak dapat menghantar resit pembayaran.",
+
+    "Submit Payment Receipt":
+        "Hantar Resit Pembayaran",
+
+    "Your Tracer Study proof has been submitted and is waiting for verification.":
+        "Bukti Kajian Pengesanan Graduan anda telah dihantar dan sedang menunggu pengesahan.",
+
+    "Your Tracer Study proof has been verified.":
+        "Bukti Kajian Pengesanan Graduan anda telah disahkan.",
+
+    "Your Tracer Study proof could not be verified. Please upload a new Tracer Study proof below.":
+        "Bukti Kajian Pengesanan Graduan anda tidak dapat disahkan. Sila muat naik bukti baharu di bawah.",
+
+    "No outstanding payment has been reported by Bursary.":
+        "Tiada bayaran tertunggak yang dilaporkan oleh Bursari.",
+
+    "Bursary has indicated that you still have an outstanding payment. Please settle the outstanding amount using the payment information provided under Fee & Payment, or visit the One Stop Centre for assistance.":
+        "Bursari telah memaklumkan bahawa anda masih mempunyai bayaran tertunggak. Sila jelaskan jumlah tertunggak menggunakan maklumat pembayaran di bahagian Yuran & Pembayaran, atau kunjungi One Stop Centre untuk bantuan.",
+
+    "Please contact Bursary for further information regarding your clearance status.":
+        "Sila hubungi Bursari untuk maklumat lanjut mengenai status pelepasan anda.",
+
+    "Your Bursary clearance status has not yet been updated.":
+        "Status pelepasan Bursari anda belum dikemas kini.",
+
+    "No convocation payment receipt has been submitted yet.":
+        "Tiada resit pembayaran konvokesyen yang telah dihantar.",
+
+    "Your payment receipt has been submitted and is waiting for Bursary verification.":
+        "Resit pembayaran anda telah dihantar dan sedang menunggu pengesahan Bursari.",
+
+    "Your convocation payment has been confirmed by Bursary.":
+        "Pembayaran konvokesyen anda telah disahkan oleh Bursari.",
+
+    "Your payment receipt was rejected. Please submit a new valid payment receipt.":
+        "Resit pembayaran anda telah ditolak. Sila hantar resit pembayaran baharu yang sah.",
+
+    "The selected file is larger than 5 MB.":
+        "Fail yang dipilih melebihi 5 MB.",
+
+    "Only JPG, PNG and PDF files are allowed.":
+        "Hanya fail JPG, PNG dan PDF dibenarkan.",
+   
+    "Check Registration Status":
+        "Semak Status Pendaftaran",
+    
 };
+
+/* =========================================================
+   DYNAMIC / POP-UP MESSAGE TRANSLATION
+   ========================================================= */
+
+function t(text) {
+
+    const language =
+        localStorage.getItem("convocationLanguage") || "en";
+
+    if (language === "bm") {
+        return bmTranslations[text] || text;
+    }
+
+    return text;
+}

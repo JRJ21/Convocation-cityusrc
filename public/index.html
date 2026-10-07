@@ -87,7 +87,7 @@
 
     <a href="/login.html" class="login-btn">
 
-      Login
+      Staff Login
 
     </a>
 
@@ -1768,7 +1768,7 @@ if (tracerProofInput) {
         if (file.size > maxSize) {
 
         alert(
-        "The selected file is larger than 5 MB."
+        t("The selected file is larger than 5 MB.")
         );
 
         this.value = "";
@@ -1789,7 +1789,7 @@ if (tracerProofInput) {
     if (!allowedTypes.includes(file.type)) {
 
         alert(
-            "Only JPG, PNG and PDF files are allowed."
+            t("Only JPG, PNG and PDF files are allowed.")
         );
 
         this.value = "";
@@ -1958,7 +1958,7 @@ if (registrationForm) {
                 tracerProof.files.length === 0
             ) {
                 alert(
-                    "Please upload your Tracer Study proof before submitting."
+                    t("Please upload your Tracer Study proof before submitting.")
                 );
 
                 return;
@@ -1990,7 +1990,7 @@ if (registrationForm) {
                 }
 
                 alert(
-                    "Registration submitted successfully."
+                    t("Registration submitted successfully.")
                 );
 
                 registrationForm.reset();
@@ -2037,7 +2037,7 @@ if (registrationForm) {
                     error
                 );
 
-                alert(error.message);
+                alert(t(error.message));
 
            } finally {
 
@@ -2126,7 +2126,7 @@ async function checkStudentRegistration() {
     if (!studentId || !email) {
 
         message.textContent =
-            "Please enter your Student ID and registered email address.";
+            t("Please enter your Student ID and registered email address.");
 
         return;
     }
@@ -2134,7 +2134,7 @@ async function checkStudentRegistration() {
 
     checkRegistrationBtn.disabled = true;
     checkRegistrationBtn.textContent =
-        "Checking...";
+        t("Checking...");
 
 
     try {
@@ -2182,7 +2182,7 @@ async function checkStudentRegistration() {
     } catch (error) {
 
         message.textContent =
-            error.message;
+            t(error.message);
 
 
     } finally {
@@ -2191,7 +2191,7 @@ async function checkStudentRegistration() {
             false;
 
         checkRegistrationBtn.textContent =
-            "Check Registration";
+            t("Check Registration Status");
     }
 }
 
