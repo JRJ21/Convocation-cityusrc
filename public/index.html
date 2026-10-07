@@ -1039,14 +1039,13 @@
     <p class="payment-intro">
         Please complete your convocation payment using
         one of the official payment methods below.
-        After payment, submit your payment receipt for
-        Bursary verification.
+        After payment, submit your payment receipt through this portal
+        for Bursary verification.
     </p>
-
 
     <div class="payment-method-grid">
 
-        <!-- STUDENT PORTAL -->
+        <!-- BANK / ONLINE TRANSFER -->
         <div class="payment-method-card">
 
             <div class="payment-method-number">
@@ -1056,75 +1055,42 @@
             <div class="payment-method-content">
 
                 <h3>
-                    Pay Through Student Portal
-                </h3>
-
-                <p>
-                    Make your payment through the official
-                    City University Malaysia Student Portal.
-                </p>
-
-                <p class="payment-method-note">
-                    The official Student Portal link will
-                    be provided once confirmed.
-                </p>
-
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    disabled
-                >
-                    Student Portal Link TBA
-                </button>
-
-            </div>
-        </div>
-
-
-        <!-- BANK / ONLINE TRANSFER -->
-        <div class="payment-method-card">
-
-            <div class="payment-method-number">
-                02
-            </div>
-
-            <div class="payment-method-content">
-
-                <h3>
                     Bank / Online Transfer
                 </h3>
 
                 <p>
-                    Payment may be made using the official
-                    bank or payment information provided
-                    by the University.
+                    Payment may be made by bank or online transfer
+                    using the official account below.
                 </p>
 
                 <div class="payment-bank-details">
 
                     <div>
-                        <span>Payee</span>
-                        <strong>To Be Announced</strong>
-                    </div>
-
-                    <div>
                         <span>Bank</span>
-                        <strong>To Be Announced</strong>
+                        <strong>Hong Leong Bank</strong>
                     </div>
 
                     <div>
                         <span>Account Number</span>
-                        <strong>To Be Announced</strong>
+                        <strong>1820 0033 680</strong>
+                    </div>
+
+                    <div>
+                        <span>Account Holder</span>
+                        <strong>U.C.I EDUCATION SDN BHD</strong>
                     </div>
 
                     <div>
                         <span>Payment Reference</span>
-                        <strong>
-                            Student ID / Matric Number
-                        </strong>
+                        <strong>Student ID / Matric Number</strong>
                     </div>
 
                 </div>
+
+                <p class="payment-method-note">
+                    After completing the payment, please keep your
+                    payment receipt and upload it below for Bursary verification.
+                </p>
 
             </div>
         </div>
@@ -1134,7 +1100,7 @@
         <div class="payment-method-card">
 
             <div class="payment-method-number">
-                03
+                02
             </div>
 
             <div class="payment-method-content">
@@ -1150,7 +1116,8 @@
 
                 <p class="payment-method-note">
                     Please keep the official payment receipt
-                    issued after payment.
+                    issued after payment and upload it below
+                    for Bursary verification.
                 </p>
 
             </div>
@@ -1223,10 +1190,6 @@
                 >
                     <option value="">
                         Select Payment Method
-                    </option>
-
-                    <option value="Student Portal">
-                        Student Portal
                     </option>
 
                     <option value="Bank / Online Transfer">
@@ -1696,14 +1659,14 @@
             <a href="mailto:convocation.src@city.edu.my">
                 convocation.src@city.edu.my
             </a>
-            <span>OFFICE NUMBER TBA</span>
+
         </div>
 
         <!-- BURSARY -->
         <div class="footer-simple-section">
             <strong>Bursary</strong>
-            <span>EMAIL TBA</span>
-            <span>OFFICE NUMBER TBA</span>
+            <span>cityedusabah@city.edu.my</span>
+
         </div>
 
         <!-- COPYRIGHT -->
@@ -2431,7 +2394,7 @@ if (bursaryStatus === "Cleared") {
     bursaryIcon.textContent = "!";
 
     bursaryMessage.textContent =
-        "Bursary has indicated that you still have an outstanding payment. Please check your Student Portal or visit the One Stop Centre.";
+        "Bursary has indicated that you still have an outstanding payment. Please settle the outstanding amount using the payment information provided under Fee & Payment, or visit the One Stop Centre for assistance.";
 
 
 } else if (

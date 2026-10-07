@@ -2236,10 +2236,9 @@ app.post(
         }
 
         const allowedPaymentMethods = [
-    "Student Portal",
-    "Bank / Online Transfer",
-    "One Stop Centre"
-];
+            "Bank / Online Transfer",
+            "One Stop Centre"
+        ];
 
 if (!allowedPaymentMethods.includes(payment_method)) {
 
