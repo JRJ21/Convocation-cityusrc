@@ -1082,7 +1082,7 @@
 
                     <div>
                         <span>Payment Reference</span>
-                        <strong>Student ID / Matric Number</strong>
+                        <strong>Convocation Fee</strong>
                     </div>
 
                 </div>
@@ -2274,7 +2274,7 @@ function displayStudentRegistration(student) {
         document.getElementById("tracerStatusMessage");
 
 
-    tracerStatus.textContent = status;
+    tracerStatus.textContent = t(status);
 
     tracerHighlight.className =
         "tracer-highlight";
@@ -2288,7 +2288,7 @@ function displayStudentRegistration(student) {
         tracerIcon.textContent = "✓";
 
         tracerMessage.textContent =
-            "Your Tracer Study proof has been verified by the Convocation Secretariat.";
+             t("Your Tracer Study proof has been verified by the Convocation Secretariat.");
 
         } else if (status === "Rejected") {
             tracerHighlight.classList.add(
@@ -2304,12 +2304,31 @@ function displayStudentRegistration(student) {
                     ).trim()
                     : "";
 
-            tracerMessage.textContent =
-                rejectionReason
-                    ? "Your Tracer Study proof could not be verified. Reason: " +
-                    rejectionReason +
-                    " Please upload a new Tracer Study proof below."
-                    : "Your Tracer Study proof could not be verified. Please upload a new Tracer Study proof below.";
+            if (rejectionReason) {
+
+                if (
+                    (localStorage.getItem("convocationLanguage") || "en")
+                    === "bm"
+                ) {
+                    tracerMessage.textContent =
+                        "Bukti Kajian Pengesanan Graduan anda tidak dapat disahkan. Sebab: " +
+                        rejectionReason +
+                        " Sila muat naik bukti Kajian Pengesanan Graduan yang baharu di bawah.";
+                } else {
+                    tracerMessage.textContent =
+                        "Your Tracer Study proof could not be verified. Reason: " +
+                        rejectionReason +
+                        " Please upload a new Tracer Study proof below.";
+                }
+
+            } else {
+
+                tracerMessage.textContent =
+                    t(
+                        "Your Tracer Study proof could not be verified. Please upload a new Tracer Study proof below."
+                    );
+            }
+
         } else {
         tracerHighlight.classList.add(
             "tracer-highlight-submitted"
@@ -2318,7 +2337,7 @@ function displayStudentRegistration(student) {
         tracerIcon.textContent = "!";
 
         tracerMessage.textContent =
-            "Your Tracer Study proof has been submitted and is waiting for verification.";
+            t("Your Tracer Study proof has been submitted and is waiting for verification.");
     }
 
         /* Show re-upload option only when Tracer Study is rejected */
