@@ -4486,3 +4486,38 @@ body {
         padding: 11px 14px;
     }
 }
+
+/* STAFF DIRECTORY LAYOUT IMPROVEMENT */
+
+#staff {
+    min-height: calc(100vh - 180px);
+}
+
+#staff .staff-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin-top: 24px;
+}
+
+#staff .staff-card {
+    padding: 24px;
+    min-height: 115px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#staff .staff-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(20, 38, 61, 0.1);
+}
+
+@media (max-width: 700px) {
+    #staff .staff-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #staff .staff-card {
+        padding: 20px;
+    }
+}
