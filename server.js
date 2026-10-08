@@ -129,22 +129,27 @@ const tracerUpload =
    MYSQL
 ========================================= */
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: process.env.DB_HOST || "localhost",
-    port: process.env.DB_PORT || 3306,
+    port: Number(process.env.DB_PORT) || 3306,
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME || "convocation"
+    database: process.env.DB_NAME || "convocation",
+
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 10000
 });
 
-db.connect((error) => {
+db.query("SELECT 1", (error) => {
     if (error) {
-        console.error("❌ MySQL connection failed:");
-        console.error(error.message);
-        return;
+        console.error("❌ MySQL connection test failed:", error.message);
+    } else {
+        console.log("✅ MySQL connection pool ready!");
     }
-
-    console.log("✅ Connected to MySQL!");
 });
 
 /* =========================================
