@@ -108,14 +108,13 @@
 
     <div>
         <span class="event-label">VENUE</span>
-        <strong>Sabah International Convention Centre</strong>
+        <strong>Dewan Sipadan 3, (Tingkat 4), Sabah International Convention Centre</strong>
         <small>SICC, Sabah</small>
     </div>
 
     <div>
         <span class="event-label">TIME</span>
-        <strong>To Be Announced</strong>
-        <small>Please check this portal for updates</small>
+        <strong>2:00 PM until the end of the ceremony</strong>
     </div>
 </div>
 
@@ -271,7 +270,7 @@
         <strong>Convocation Ceremony 2025/2026</strong>
         <p>
             16 January 2027 (Saturday) at Sabah International
-            Convention Centre (SICC). Ceremony time will be announced.
+            Convention Centre (SICC). 2:00 PM until the end of the ceremony.
         </p>
     </div>
 </div>
@@ -299,7 +298,7 @@
 <div class="registration-banner">
 <div>
 <strong>Convocation Venue</strong>
-<span>Sabah International Convention Centre</span>
+<span>Dewan Sipadan 3, (Tingkat 4), Sabah International Convention Centre</span>
 </div>
 <div>
 <strong>Convocation Session</strong>
@@ -307,7 +306,7 @@
 </div>
 <div>
 <strong>Time</strong>
-<span>TBA</span>
+<span>2:00 PM until the end of the ceremony</span>
 </div>
 </div>
 <form class="form-card" id="registrationForm">
@@ -1037,8 +1036,7 @@
     </h2>
 
     <p class="payment-intro">
-        Please complete your convocation payment using
-        one of the official payment methods below.
+        Please complete your convocation payment using one of the official payment methods below.
         After payment, submit your payment receipt through this portal
         for Bursary verification.
     </p>
@@ -1593,12 +1591,33 @@
 <p>Complete the following steps after the ceremony.</p>
 </div>
 <div class="after-list">
-<div class="after-item"><span>01</span><div><h3>Return Your Academic Robe</h3><p>Return the complete robe set in good condition according to the University's instructions.</p></div></div>
+<div class="after-item">
+    <span>01</span>
+    <div>
+        <h3>Return Your Academic Robe</h3>
+        <p>
+            Please return the complete academic robe set in good condition during either of the following periods:
+        </p>
+        <ul>
+            <li>
+                <strong>16 January 2027:</strong>
+                After the ceremony until 4:00 PM.
+            </li>
+            <li>
+                <strong>18 January 2027:</strong>
+                From 9:00 AM to 4:00 PM.
+            </li>
+        </ul>
+    </div>
+</div>
 <div class="after-item"><span>02</span><div><h3>Collect Your Scroll &amp; Transcript</h3><p>After returning the robe, follow the University's instructions to collect your official academic documents.</p></div></div>
 <div class="after-item"><span>03</span><div><h3>Bring Identification</h3><p>Bring the required identification when collecting your official academic documents if requested.</p></div></div>
-<div class="after-item"><span>04</span><div><h3>Late Return</h3><p>Any late-return charge or specific return arrangement will follow the University's current 2025/2026 announcement.</p></div></div>
+<div class="after-item"><span>04</span><div><h3>Late Return</h3>
+            <p>A late-return fine of RM50 will be charged on
+            19 January 2027. A fine of RM500 will apply
+            for any damaged or lost academic robe set</p></div></div>
 </div>
-<div class="tba-box"><strong>2025/2026 UPDATE</strong><span>Exact return date, location and time will be announced</span></div>
+<div class="tba-box"><strong>ROBE RETURN NOTICE</strong><span>Late-return fines of RM50 will be charged on 19 January 2027. Damage or loss will incur a fine of RM500.</span></div>
 </section>
 
 
@@ -2886,7 +2905,7 @@ function translateTextNodes(language) {
             originalText.get(node);
 
         const clean =
-            original.trim();
+             original.trim().replace(/\s+/g, " ");
 
 
         if (!clean) {

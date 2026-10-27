@@ -375,6 +375,11 @@ const bmTranslations = {
 
     "Submitting...":
         "Sedang Menghantar...",
+    "2:00 PM until the end of the ceremony":
+        "2:00 PM sehingga majlis selesai",
+
+    "Please return the complete academic robe set in good conditionduring either of the following periods:":
+        "Sila kembalikan set baju akademik yang lengkap dalam keadaan baik semasa salah satu daripada tempoh berikut:",
 
     /* =========================
        PRIVACY NOTICE
@@ -879,14 +884,16 @@ const bmTranslations = {
     "Late Return":
         "Pemulangan Lewat",
 
-    "Any late-return charge or specific return arrangement will follow the University's current 2026/27 announcement.":
-        "Sebarang caj pemulangan lewat atau aturan pemulangan khusus akan mengikut pengumuman semasa Universiti bagi 2026/27.",
+    "A late-return fine of RM50 will be charged on 19 January 2027. A fine of RM500 will apply for any damaged or lost academic robe set":
+        "Denda pemulangan lewat sebanyak RM50 akan dikenakan pada 19 Januari 2027. Denda sebanyak RM500 akan dikenakan untuk sebarang set jubah akademik yang rosak atau hilang.",
 
     "2026/27 UPDATE":
         "KEMAS KINI 2026/27",
 
     "Exact return date, location and time will be announced":
         "Tarikh, lokasi dan masa pemulangan yang tepat akan diumumkan",
+
+
 
     /* =========================
        STAFF
@@ -1106,6 +1113,8 @@ const bmPlaceholders = {
     "Check Registration Status":
         "Semak Status Pendaftaran",
     
+    "Your Tracer Study proof has been verified by the Convocation Secretariat.":
+        "Bukti Kajian Pengesanan Graduan anda telah disahkan oleh Sekretariat Konvokesyen.",
 };
 
 /* =========================================================
